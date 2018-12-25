@@ -1,0 +1,35 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s:
+            return 0
+        
+        d={}
+        length=1
+        currentindex=0
+        begincharacter=s[0]
+        for i in s:
+            if i not in d:
+                pass
+            else:
+                if(d[i]<d[begincharacter]):
+                    pass
+                elif(d[i]==d[begincharacter]):
+                    if(length<currentindex-d[begincharacter]):
+                        length=currentindex-d[begincharacter]
+                    begincharacter=s[1+d[begincharacter]]
+                else:
+                    if(length<currentindex-d[begincharacter]):
+                        length=currentindex-d[begincharacter]
+                    begincharacter=s[1+d[i]]
+            d[i]=currentindex
+            currentindex+=1
+ 
+        if len(s)-d[begincharacter]>length:
+            return (len(s)-d[begincharacter])
+        return length
+        
+        
