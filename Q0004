@@ -1,0 +1,36 @@
+class Solution:
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+        m=len(nums1)  #10     
+        n=len(nums2)  #4 
+        ret=[]
+        
+        i=j=0
+        while (j!=n and i!=m):
+            if (nums1[i]>nums2[j]):
+                ret.append(nums2[j])
+                j+=1              
+            else:
+                ret.append(nums1[i])
+                i+=1
+
+        if j==n:
+            while i<m:
+                ret.append(nums1[i])
+                i+=1
+        
+        if i==m:
+            while j<n:
+                ret.append(nums2[j])
+                j+=1          
+        
+        f=len(ret)
+        if f%2==0:
+            return (ret[f//2]+ret[f//2-1])/2
+        else:
+            return ret[f//2]
+         
