@@ -1,0 +1,49 @@
+class Solution:
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        numbase={'0':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9}
+        signbase={'+':1,'-':-1}
+        startflag=False
+        value=0
+        sign=1
+        for i in str:          
+            if (i not in numbase):
+                if (i in signbase):
+                    if startflag==False:
+                        startflag=True
+                        sign=signbase[i]
+                    else:
+                        break
+                elif (i==' '):
+                    if startflag==False:
+                        continue
+                    else:
+                        break
+                else:
+                    break              
+            else:
+                if startflag==False:
+                    startflag=True
+                value=value*10+numbase[i]
+        value*=sign
+        if value<(-2**31):
+            return -2**31
+        elif value>2**31-1:
+            return 2**31-1
+        else:
+            return value
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
