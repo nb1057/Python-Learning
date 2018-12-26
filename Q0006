@@ -1,0 +1,22 @@
+class Solution:
+    def convert(self, s, numRows):
+        """
+        :type s: str
+        :type numRows: int
+        :rtype: str
+        """
+        loop=2*numRows-2
+        
+        if numRows==1:
+            return s
+        ret=''
+        index=0   
+        
+        for x in range(numRows):
+            index=x
+            while(index<len(s)):
+                ret+=s[index]
+                if index%loop!=0 and index%loop!=numRows-1 and index+loop-2*x<len(s):
+                    ret+=s[index+loop-2*x]
+                index+=numRows*2-2
+        return ret
