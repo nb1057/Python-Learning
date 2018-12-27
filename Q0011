@@ -1,0 +1,21 @@
+class Solution:
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+
+        leftindex=0
+        rightindex=len(height)-1
+        maxarea=min(height[leftindex],height[rightindex])*(rightindex-leftindex)
+        
+        while(leftindex!=rightindex):
+            if(height[leftindex]>height[rightindex]):
+                rightindex-=1
+                if min(height[leftindex],height[rightindex])*(rightindex-leftindex)>maxarea:
+                    maxarea=min(height[leftindex],height[rightindex])*(rightindex-leftindex)
+            else:
+                leftindex+=1
+                if min(height[leftindex],height[rightindex])*(rightindex-leftindex)>maxarea:
+                    maxarea=min(height[leftindex],height[rightindex])*(rightindex-leftindex)
+        return maxarea
