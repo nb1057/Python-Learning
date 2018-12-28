@@ -1,0 +1,21 @@
+class Solution(object):
+
+    def isMatch(self, text, pattern):
+        memo = {}
+
+        def match(t, p):
+            if (t, p) in memo:
+                return memo[t, p]
+            else:
+                if p == len(pattern):
+                    ans = t == len(text)
+                else:
+                    first_match = t < len(text) and pattern[p] in {text[t], '.'}
+                    if p+1 < len(pattern) and pattern[p+1] == '*':
+                        ans = first_match and match(t+1, p) or match(t, p+2)
+                    else:
+                        ans = first_match and match(t+1, p+1)
+                    memo[t, p] = ans
+                return ans
+
+        return match(0, 0)
