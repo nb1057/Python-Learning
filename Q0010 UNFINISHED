@@ -9,20 +9,21 @@ class Solution:
             return True
         elif not p:         #only p empty
             return False
-        elif not s and (not not p):
+        elif not s and (not not p):  #only s empty
             if len(p)==2:
                 if p[1]=='*' and p[0]!='.' and p[0]!='*':
                     return True
             else:
                 return False
-        else:
+        else:                #both p,s not empty
             sindex=0
             pindex=0
             alphabet=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
             pass
             for pindex in range(len(p)):
-                if pindex<len(p)-1:                #pindex isnot the last index
+                if pindex<len(p)-1:                #pindex isnot the last valid index
                     if p[pindex]=='*':             #'*'
+                        pass
                         return False
                     elif p[pindex]=='.' and p[pindex+1]=='*':   #'.*'
                         '''
@@ -41,17 +42,11 @@ class Solution:
                             break
                     
                     elif p[pindex+1]=='*':         #'a*'
-                        if(p[pindex]!=s[sindex]):  # '*'=0  delete 'a'
-                            pindex+=2
-                            continue
-                        else:                      # '*'>=1  remain 'a'
-                            x=1
-                            for x in range(len(s)+1):          
-                                if self.isMatch(s[sindex:],p[pindex]*x+p[pindex+1:])==True:
-                                    return True
-                                else:
-                                    return False
-                    
+                        x=0
+                        for x in range(len(s)+1):          
+                            if self.isMatch(s[sindex:],p[pindex]*x+p[pindex+2:])==True:
+                                return True
+                        return False
                     else:                          #'a.','aa' 
                         if p[pindex]==s[sindex]:
                             sindex+=1
@@ -78,3 +73,6 @@ class Solution:
                 return True
             else:
                 return False
+            
+            
+            
