@@ -1,0 +1,24 @@
+class Solution:
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if len(nums) < 3:
+            return []
+        nums.sort()
+        solution_set = []
+        for i in range(len(nums) - 2):
+            d = {}
+            target = -nums[i]
+            for l in range(i + 1, len(nums)):
+                if (target - nums[l]) in d:
+                    ans = [nums[i], nums[l], nums[d[target - nums[l]]]]
+                    ans.sort()
+                    if ans not in solution_set:
+                        solution_set.append(ans)
+                d[nums[l]] = l
+        return solution_set
+                      
+        
+
