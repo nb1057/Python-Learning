@@ -1,0 +1,54 @@
+class Solution:
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        (9,-2)=-4
+        (9,2)=4
+        (10,3)=3
+        (-9,3)=-3
+        (-10,3)=-3
+        (-11,3)=-3
+        (-12,3)=-4
+        (9,-3)=-3
+        (10,-3)=-3
+        (11,-3)=-3
+        (12,-3)=-4
+        (-9,-3)=3
+        (-10,-3)=3
+        (-11,-3)=3
+        (-12,-3)=4
+        """
+        if dividend==0:
+            return 0
+        if dividend==-2**31 and divisor==-1:
+            return 2**31-1
+        
+        if dividend>0:
+            dividend_sign=1
+        else:
+            dividend_sign=-1
+            dividend=-dividend
+        if divisor>0:
+            divisor_sign=1
+        else:
+            divisor_sign=-1
+            divisor=-divisor
+        
+        ret_unsigned=0
+        while dividend>=divisor:
+            tmp_divisor=divisor
+            ret_unsigned_tmp=1
+            while dividend>=tmp_divisor+tmp_divisor:
+                tmp_divisor+=tmp_divisor
+                ret_unsigned_tmp+=ret_unsigned_tmp
+            ret_unsigned+=ret_unsigned_tmp
+            dividend-=tmp_divisor
+        
+        if dividend_sign==1 and divisor_sign==1 or dividend_sign==-1 and divisor_sign==-1:
+            ret=ret_unsigned
+        else:
+            ret=-ret_unsigned
+            
+        return ret
