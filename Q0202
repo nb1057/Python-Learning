@@ -1,0 +1,18 @@
+class Solution:
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        dic=[]
+        while(n not in dic):
+            dic.append(n)
+            summ=0
+            while(n//10!=0):
+                summ+=(n%10)**2
+                n=n//10
+            summ+=n**2
+            if summ==1:
+                return True
+            n=summ
+        return False
