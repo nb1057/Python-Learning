@@ -1,0 +1,34 @@
+class Solution:
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        '''
+        6=312211
+        7=13112221
+        '''
+        def read(a):
+            length = len(a)
+            ret = ''
+            i = 0
+            while i < length:
+                if i == length - 1:
+                    ret += '1' + str(a[i])
+                    break
+                else:
+                    j = i + 1
+                    while j < length:
+                        if a[i]==a[j]:
+                            j+=1
+                        else:
+                            break
+                    ret+=str(j-i)+str(a[i])
+                    i=j
+            return ret
+        
+        if n == 1:
+            return "1"
+        else:
+            return read(self.countAndSay(n - 1))
+
