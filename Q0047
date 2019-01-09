@@ -1,0 +1,33 @@
+class Solution:
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+  
+        if not nums:
+            return []
+
+        ret = []
+        ret.append([nums[0]])
+
+        for index, item in enumerate(nums):
+            if index == 0:
+                continue
+            length = len(ret)
+            for i in range(length):
+                length1 = len(ret[0])
+                for j in range(length1 + 1):
+                    sample = []
+                    sample += ret[0]
+                    sample.insert(j, item)
+                    ret.append(sample)
+                ret.remove(ret[0])
+
+        d = []
+        for item in ret:
+            if item not in d:
+                d.append(item)
+        return d
+
+
