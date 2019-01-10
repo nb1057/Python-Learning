@@ -1,0 +1,46 @@
+#probably correct
+class Solution:
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        memo = {}
+
+        def letsJump(si, ei):
+            if (si,ei) in memo:
+                return memo[(si,ei)]
+            if si == ei:
+                return True
+            else:
+                sample = nums[si:ei]
+                max_step = max(sample)
+                while max_step != -1:
+                    sample.reverse()
+                    max_index_sample_reverse = sample.index(max_step)
+                    max_index_sample = len(sample) - 1 - max_index_sample_reverse
+                    sample.reverse()
+                    max_index_nums = max_index_sample
+                    if ei - max_index_nums <= max_step and letsJump(si, max_index_nums):
+                        memo[(si, ei)] = True
+                        return True
+                    else:
+                        sample[max_index_sample] = -1
+                        max_step = max(sample)
+                memo[(si, ei)] = False
+                return False
+
+        if not nums or len(nums) == 1:
+            return True
+        elif nums[0] == 0:
+            return False
+        else:
+            return letsJump(0, len(nums) - 1)
+
+
+
+
+
+
+
+
