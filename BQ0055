@@ -1,0 +1,26 @@
+class Solution:
+
+    # Greedy:
+    # Result: Accepted
+    # Time Complexity: O(n)
+    # Space Complexity: O(1)
+    
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        # the last (most left) position that can reach the last element is the last element 
+        lastGoodPos = len(nums) - 1
+        
+        # starting from the last element 
+        # see if each element can reach an element that can reach the last element 
+        # and if so make that element the lastGoodPos 
+        # (the left most position that can reach the last element)
+        for i in range(len(nums) - 1, -1, -1):
+            if(i + nums[i] >= lastGoodPos):
+                lastGoodPos = i
+        
+        # if the lastGoodPos (the left-most position that can reach the last index) is at position 0:
+        # then return true otherwise retrun false
+        return lastGoodPos == 0
