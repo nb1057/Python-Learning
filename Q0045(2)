@@ -1,0 +1,24 @@
+#Probably correct
+class Solution:
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums or len(nums)==1:
+            return 0
+        i=0
+        good_node=len(nums)-1
+        count=0
+    
+        while True:
+            if good_node-i<=nums[i]:
+                good_node=i
+                i=0
+                count+=1
+                if good_node==0:
+                    return count
+            else:
+                i+=1
+
