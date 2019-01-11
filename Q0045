@@ -1,0 +1,18 @@
+class Solution:
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        def letsJump(si, ei): 
+            if si == ei:
+                return 0
+            else:
+                for i in range(si,ei):
+                    if ei-i<=nums[i]:
+                        return 1+letsJump(0,i)
+        if not nums:
+            return 0
+        else:
+            return letsJump(0, len(nums) - 1)
