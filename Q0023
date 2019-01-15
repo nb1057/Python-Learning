@@ -1,0 +1,41 @@
+#Probably correct
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        ret=ListNode(-1)
+        index=0
+        while index<len(lists):
+            if lists[index]==None: lists.pop(index)
+            else: index+=1
+        if len(lists)==0:
+            return ret.next            
+        
+        def doMerge(listss):   #list to ListNode
+            index=0
+            while index<len(listss):
+                if listss[index]==None: listss.pop(index)
+                else: index+=1
+                    
+            if len(listss)==1 and listss[0].next==None:
+                return listss[0]
+            
+            min_index=0
+            min_val=listss[min_index].val
+            for i,key in enumerate(listss):
+                if key.val<min_val: min_index,min_val=i,key.val
+                    
+            listss[min_index].next=doMerge(listss[:min_index]+[listss[min_index].next]+listss[min_index+1:])
+            return listss[min_index]
+        
+        ret.next=doMerge(lists)
+        return ret.next
