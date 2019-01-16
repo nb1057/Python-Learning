@@ -7,6 +7,8 @@ class Solution:
         """
         ret=0
         for i in range(len(s)):
+            if len(s)-i<=ret:
+                break
             left=right=0
             j=i
             while j<len(s):
