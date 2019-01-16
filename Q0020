@@ -9,10 +9,10 @@ class Solution:
             if s[index]=='(' or s[index]=='[' or s[index]=='{':
                 stack.append(s[index])
             else:
-                if s[index]==')' and (not stack or stack.pop(len(stack)-1)!='('):
+                if s[index]==')' and (not stack or stack.pop()!='('):
                     return False
-                elif s[index]==']' and (not stack or stack.pop(len(stack)-1)!='['):
+                elif s[index]==']' and (not stack or stack.pop()!='['):
                     return False
-                elif s[index]=='}' and (not stack or stack.pop(len(stack)-1)!='{'):
+                elif s[index]=='}' and (not stack or stack.pop()!='{'):
                     return False
         return not stack
