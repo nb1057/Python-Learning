@@ -1,0 +1,31 @@
+class Solution:
+    def longestValidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        s_len=len(s)
+        dic=[]
+        for i in range(s_len):
+            if s[i]==')': 
+                j=i-1
+                while j>=0:
+                    if s[j]=='(' and j not in dic:
+                        dic.append(i)
+                        dic.append(j)
+                        break
+                    j-=1
+        dic.sort()  
+        ret=0
+        index=0
+        while index<len(dic):
+            k=index+1
+            while k<len(dic) and dic[k-1]+1==dic[k]:
+                k+=1
+            ret=max(ret,k-index)
+            if k==len(dic): break
+            index=k
+        return ret
+                
+                
+            
