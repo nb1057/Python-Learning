@@ -1,0 +1,35 @@
+class Solution:
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        height_len = len(height)
+        if height_len <= 2:
+            return 0
+        i = 0
+        ret = 0
+        while i < height_len - 2:
+            if height[i] > height[i + 1]:
+                flag = 0
+                for m in range(i + 2, height_len):
+                    if height[i] <= height[m]:
+                        j = m
+                        flag = 1
+                        break
+                if not flag:
+                    m = i + 1
+                    j = m
+                    while m < height_len:
+                        if height[j] < height[m]:
+                            j = m
+                        m += 1
+                base = min(height[i], height[j])
+                for k in range(i + 1, j):
+                    if height[k] < base:
+                        ret += base - height[k]
+                i = j
+            else:
+                i += 1
+        return ret
+
