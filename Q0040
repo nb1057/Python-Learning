@@ -1,0 +1,57 @@
+class Solution:
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        candidates.sort()
+
+        ret = []
+        index = 0
+        stack = []
+
+        while index < len(candidates) or not not stack:
+            if index < len(candidates) and not stack:
+                if candidates[index] > target:
+                    break
+                elif candidates[index] == target:
+                    ret.append([index])
+                    break
+                else:
+                    target -= candidates[index]
+                    stack.append(index)
+                    index += 1
+            elif index == len(candidates) and not not stack:
+                x = stack.pop()
+                target += candidates[x]
+                index = x + 1
+            else:
+                if candidates[index] < target:
+                    target -= candidates[index]
+                    stack.append(index)
+                    index += 1
+                elif candidates[index] == target:
+                    a = []
+                    a += stack
+                    a.append(index)
+                    ret.append(a)
+                    x = stack.pop()
+                    target += candidates[x]
+                    index = x + 1  
+                else:
+                    x = stack.pop()
+                    target += candidates[x]
+                    index = x + 1  
+
+        for i in range(len(ret)):
+            for j in range(len(ret[i])):
+                ret[i][j] = candidates[ret[i][j]]
+
+        d = []
+        for item in ret:
+            if item not in d:
+                d.append(item)
+        return d
+
+
