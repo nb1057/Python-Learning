@@ -1,3 +1,5 @@
+#Use exclusion method only. Works on pycharm, but not on leetcode
+
 class Solution:
     def solveSudoku(self, board):
         """
@@ -61,38 +63,39 @@ class Solution:
                     sample2 += boardx[i]
             return boardx
 
+        def doMethod1(boardx):
+            sample1 = []
+            sample1 += boardx
+            boardx = method1(boardx)
+            boardx = board_row_column_switch(boardx)
+            boardx = method1(boardx)
+            boardx = board_row_column_switch(boardx)
+            boardx = board_row2block(boardx)
+            boardx = method1(boardx)
+            boardx = board_block2row(boardx)
+            sample2 = []
+            sample2 += boardx
+            while sample1 != sample2:
+                sample1 = []
+                sample1 += sample2
+                boardx = method1(boardx)
+                boardx = board_row_column_switch(boardx)
+                boardx = method1(boardx)
+                boardx = board_row_column_switch(boardx)
+                boardx = board_row2block(boardx)
+                boardx = method1(boardx)
+                boardx = board_block2row(boardx)
+                sample2 = []
+                sample2 += boardx
+            return boardx
+
 
         #initial
         for i in range(9):
             for j in range(9):
                 if board[i][j] == '.': board[i][j] = "123456789"
 
-        sample1 = []
-        sample1 += board
-        board = method1(board)
-        board_c = board_row_column_switch(board)
-        board_c = method1(board_c)
-        board = board_row_column_switch(board_c)
-        board_b = board_row2block(board)
-        board_b = method1(board_b)
-        board = board_block2row(board_b)
-        sample2 = []
-        sample2 += board
-        while sample1 != sample2:
-            sample1 = []
-            sample1 += sample2
-            board = method1(board)
-            board_c = board_row_column_switch(board)
-            board_c = method1(board_c)
-            board = board_row_column_switch(board_c)
-            board_b = board_row2block(board)
-            board_b = method1(board_b)
-            board = board_block2row(board_b)
-            sample2 = []
-            sample2 += board
+        board = doMethod1(board)
+
         return board
 
-
-s = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
-p = Solution()
-print(p.solveSudoku(s))
