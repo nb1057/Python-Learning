@@ -1,0 +1,64 @@
+#Brute method, probably correct
+class Solution:
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+
+        def solve():
+            flag = 0
+            for i in range(0, 9):
+                for j in range(0, 9):
+                    if board[i][j] == '.':
+                        flag = 1
+                        for k in range(1, 10):
+                            board[i][j] = str(k)
+                            if self.isValidSudoku(board) and solve():
+                                return True
+                        board[i][j] = '.'
+                        return False
+            if flag == 0:
+                return self.isValidSudoku(board)
+
+        solve()
+  
+    def isValidSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: bool
+        """
+
+        def checkRepetition(lists):
+            if not lists:
+                return True
+            else:
+                d = []
+                for item in lists:
+                    if item == '.':
+                        continue
+                    elif item in d:
+                        return False
+                    else:
+                        d.append(item)
+                return True
+
+        board_c = []  # board column
+        for i in range(9):
+            board_c.append([])
+            for j in range(9):
+                board_c[i].append(board[j][i])
+        board_b = [[], [], [], [], [], [], [], [], []]  # board block
+        for i in range(9):
+            for j in range(9):
+                board_b[i // 3 * 3 + j // 3].append(board[i][j])
+        for i in range(len(board)):
+            if not checkRepetition(board[i]): return False
+        for i in range(len(board_c)):
+            if not checkRepetition(board_c[i]): return False
+        for i in range(len(board_b)):
+            if not checkRepetition(board_b[i]): return False
+        return True
+
+
+
