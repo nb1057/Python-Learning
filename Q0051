@@ -1,0 +1,49 @@
+class Solution:
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        def goThrough(board, i, j):
+            board[i] = '.' * j + 'Q' + '.' * (n - j - 1)
+            for k in range(i+1, n):
+                board[k] = board[k][:j] + '.' + board[k][j+1:]
+            k, l = i, j
+            while k < n-1 and l > 0:
+                board[k+1] = board[k+1][:l-1]+'.' + board[k+1][l:]
+                k += 1
+                l -= 1
+            k, l = i, j
+            while k < n-1 and l < n-1:
+                board[k+1] = board[k+1][:l+1]+'.'+board[k+1][l+2:]
+                k += 1
+                l += 1
+            return board
+
+        def solve(board):
+            count = 0
+            for i in range(n):
+                if 'Q' in board[i]: count += 1
+            if count == n:
+                ret.append(board)
+                return True
+            else:
+                i = count
+                if board[i] == '.'*n:
+                    return False
+                else:
+                    for j in range(n):
+                        if board[i][j] == 'a':
+                            board_tmp = []
+                            board_tmp += board
+                            board = goThrough(board, i, j)
+                            solve(board)
+                            board = board_tmp
+        ret = []
+        board = []
+        for i in range(n):
+            board.append('a'*n)
+        solve(board)
+        return ret
+
+
