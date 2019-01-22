@@ -1,0 +1,33 @@
+class Solution:
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        ng = []
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                ng.append(i)
+        if len(ng) == 0 or len(ng) == 1:
+            return max(nums)
+        else:
+            l = 0
+            k = l + 1
+            max_val = nums[ng[l]]
+            while k < len(ng):
+                s = 0
+                for i in range(ng[l], ng[k]):
+                    s += nums[i]
+                if s > 0:
+                    max_val = max(max_val, s + nums[ng[k]])
+                    k += 1
+                else:
+                    l = k
+                    k = l + 1
+            if s > 0:
+                s += nums[ng[k - 1]]
+            else:
+                s = nums[ng[k - 1]]
+            max_val = max(max_val, s)
+        return max_val
+
