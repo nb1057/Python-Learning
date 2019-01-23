@@ -1,0 +1,35 @@
+class Solution:
+    def minPathSum(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        memo = {}
+        m = len(grid)
+        n = len(grid[0])
+
+        def letsgo(i, j):
+            if i == m - 1 and j == n - 1:
+                return grid[i][j]
+            elif (i, j) in memo:
+                return memo[(i, j)]
+            elif i == m-1:
+                return grid[i][j] + letsgo(i, j+1)
+            elif j == n-1:
+                return grid[i][j] + letsgo(i+1, j)
+            else:
+                memo[(i, j)] = grid[i][j] + min(letsgo(i + 1, j), letsgo(i, j + 1))
+                return memo[(i, j)]
+
+        return letsgo(0, 0)
+
+
+
+
+
+
+
+
+
+
+
