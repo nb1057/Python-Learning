@@ -1,0 +1,51 @@
+class Solution:
+    def generateMatrix(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        ret = []
+        for i in range(n):
+            ret.append([])
+            for j in range(n):
+                ret[i].append('.')
+
+        i = j = 0
+        direct = 0   # 0:right, 1:down, 2:left, 3:up
+        ret[i][j] = 1
+        digit = 2
+        while digit <= n ** 2:
+            if direct == 0 and j != n-1 and ret[i][j+1] == '.':
+                direct = 0
+            elif direct == 0:
+                direct = 1
+            elif direct == 1 and i != n-1 and ret[i+1][j] == '.':
+                direct = 1
+            elif direct == 1:
+                direct = 2
+            elif direct ==2 and j != 0 and ret[i][j-1] == '.':
+                direct = 2
+            elif direct ==2:
+                direct = 3
+            elif direct == 3 and ret[i-1][j] == '.':
+                direct = 3
+            else:
+                direct = 0
+
+            if direct == 0:
+                ret[i][j+1] = digit
+                j += 1
+            elif direct == 1:
+                ret[i+1][j] = digit
+                i += 1
+            elif direct == 2:
+                ret[i][j-1] = digit
+                j -= 1
+            else:
+                ret[i-1][j] = digit
+                i -= 1
+            digit += 1
+
+        return ret
+
+
