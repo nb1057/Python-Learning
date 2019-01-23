@@ -1,0 +1,23 @@
+class Solution:
+    def lengthOfLastWord(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        start=False
+        for i in range(len(s)-1,-1,-1):
+            if s[i]==" " and not start: 
+                continue
+            elif s[i]==" ":
+                return startindex-i
+            elif s[i]!=" " and not start:
+                start = True
+                startindex = i
+            else:
+                continue
+        if start:
+            return startindex+1
+        else:
+            return 0
+             
+            
