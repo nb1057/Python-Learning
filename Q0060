@@ -1,0 +1,26 @@
+class Solution:
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        def factorial(n):
+
+            if n == 1: return 1
+            else: return n*factorial(n-1)
+
+        ret = ""
+        db = []
+        for i in range(n):
+            db.append(i+1)
+
+        while len(db) > 1:
+            period = factorial(len(db)-1)
+            index = (k-1)//period + 1
+            ret+=str(db.pop(index-1))
+            k -= period*(index-1)
+            n -= 1
+        ret+=str(db[0])
+        return ret
+
