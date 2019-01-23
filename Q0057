@@ -1,0 +1,78 @@
+# Definition for an interval.
+# class Interval:
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+
+class Solution:
+    def insert(self, intervals, newInterval):
+        """
+        :type intervals: List[Interval]
+        :type newInterval: Interval
+        :rtype: List[Interval]
+        """
+
+        if not intervals:
+            intervals.insert(0,newInterval)
+            return intervals
+        if newInterval.start < intervals[0].start:
+            j = 0
+        elif intervals[len(intervals)-1].start <= newInterval.start:
+            j = len(intervals)
+        else:
+            for i in range(1, len(intervals)):
+                if intervals[i-1].start <= newInterval.start < intervals[i].start:
+                    j = i
+                    break
+        if newInterval.end < intervals[0].end:
+            k = 0
+        elif intervals[len(intervals)-1].end <= newInterval.end:
+            k = len(intervals)
+        else:
+            for i in range(1, len(intervals)):
+                if intervals[i-1].end <= newInterval.end < intervals[i].end:
+                    k = i
+                    break
+        if j > k:
+            pass
+        elif j == 0:
+            for l in range(j, k):
+                intervals.pop(j)
+            if not intervals:
+                intervals.insert(0, newInterval)
+            elif newInterval.end < intervals[0].start:
+                intervals.insert(0, newInterval)
+            else:
+                intervals[0].start = newInterval.start
+        elif k == len(intervals):
+            for l in range(j, k):
+                intervals.pop()
+            if not intervals:
+                intervals.insert(0,newInterval)
+            elif intervals[j-1].end < newInterval.start:
+                intervals.append(newInterval)
+            else:
+                intervals[j-1].end = newInterval.end
+        else:
+            if newInterval.start <= intervals[j-1].end and newInterval.end < intervals[k].start:
+                for l in range(j, k):
+                    intervals.pop(j)
+                intervals[j-1].end = newInterval.end
+            elif newInterval.start <= intervals[j-1].end and intervals[k].start <= newInterval.end:
+                tmp = intervals[k].end
+                for l in range(j, k+1):
+                    intervals.pop(j)
+                intervals[j-1].end = tmp
+            elif intervals[j-1].end < newInterval.start and newInterval.end < intervals[k].start:
+                for l in range(j, k):
+                    intervals.pop(j)
+                intervals.insert(j, newInterval)
+            else:
+                for l in range(j, k):
+                    intervals.pop(j)
+                intervals[j].start = newInterval.start
+
+        return intervals
+
+
