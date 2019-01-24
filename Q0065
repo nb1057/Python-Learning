@@ -1,0 +1,58 @@
+class Solution:
+    def isNumber(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+
+        def basecheck(x):
+            if not x:
+                return False
+            # dot check
+            if '.' in x:
+                if x.count('.') > 1: return False
+                else:
+                    point = x.index('.')
+                    aheaddot = x[:point]
+                    behinddot = x[point+1:]
+                    if not signcheck(aheaddot) or not signcheck(behinddot): return False
+                    if not aheaddot and not behinddot: return False
+                    if '+' in behinddot or '-' in behinddot: return False
+                    if (aheaddot == '+' or aheaddot == '-') and not behinddot: return  False
+                    return True
+            else:
+                if not signcheck(x): return False
+                if x == "+" or x == "-": return False
+
+                return True
+
+        def signcheck(x):
+            if '+' in x[1:]: return False
+            if '-' in x[1:]: return False
+            return True
+
+        valid_char = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'e', '+', '-', '.']
+        s = str.lstrip(s)
+        s = s[::-1]
+        s = str.lstrip(s)
+        s = s[::-1]
+        if not s:
+            return False
+        # make sure every character could be valid
+        for item in s:
+            if item not in valid_char:
+                return False
+        # e check
+        if 'e' in s:
+            if s.count('e') > 1:
+                return False
+            e_index = s.index('e')
+            base = s[:e_index]
+            expo = s[e_index+1:]
+            if '.' in expo:
+                return False
+            return basecheck(base) and basecheck(expo)
+        else:
+            return basecheck(s)
+
+
