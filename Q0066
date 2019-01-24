@@ -1,0 +1,17 @@
+class Solution:
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        sum1 = 0
+        while not not digits:
+            sum1 = sum1 *10 + digits.pop(0)
+        sum1+=1
+        ret = []
+        while sum1//10!=0:
+            ret.insert(0,sum1%10)
+            sum1=sum1//10
+        ret.insert(0,sum1%10)
+        return ret
+        
