@@ -1,0 +1,54 @@
+class Solution:
+    def simplifyPath(self, path):
+        """
+        :type path: str
+        :rtype: str
+        """
+        if not path:
+            return '/'
+        elif len(path) == 1:
+            if path == '.' or path == '/':
+                return '/'
+            else:
+                return '/' + path
+        # delete consecutive '/'
+        i = 1
+        while i < len(path):
+            if path[i] == '/' and path[i-1] == '/':
+                path = path[:i] + path[i+1:]
+            else:
+                i += 1
+        if len(path) == 1:
+            if path == '.' or path == '/':
+                return '/'
+            else:
+                return '/' + path
+        if path[0] != '/':
+            path = '/' + path
+        if path[len(path)-1] != '/':
+            path += '/'
+        # consider /./ case
+        i = 0
+        while i < len(path) - 2:
+            if path[i:i+3] == '/./':
+                path = path[:i] + path[i+2:]
+            else:
+                i += 1
+        # consider /../ case
+        i = 0
+        while i < len(path) - 3:
+            if path[i:i+4] == '/../':
+                x = path.rfind('/', 0, i)
+                if x == -1:
+                    path = path[:i] + path[i+3:]
+                else:
+                    path = path[:x] + path[i+3:]
+                    i = x
+            else:
+                i += 1
+        if path == '/':
+            return path
+        else:
+            return path[:len(path)-1]
+
+
