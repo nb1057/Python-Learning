@@ -1,0 +1,18 @@
+class Solution:
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        a_dec = 0
+        while not not a:
+            a_dec = 2 * a_dec + int(a[0])
+            a = a[1:]
+        b_dec = 0
+        while not not b:
+            b_dec = 2 * b_dec + int(b[0])
+            b = b[1:]
+        return (bin(a_dec+b_dec))[2:]
+
+
