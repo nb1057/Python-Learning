@@ -1,0 +1,57 @@
+class Solution:
+    def fullJustify(self, words, maxWidth):
+        """
+        :type words: List[str]
+        :type maxWidth: int
+        :rtype: List[str]
+        """
+        def letsarrange(x):  # input:list output:string
+            re = ''
+            if len(x) == 1:
+                return x[0] + ' ' * (maxWidth-len(x[0]))
+            else:
+                spacecount = len(x) - 1
+                spaceroom = maxWidth
+                for item in x:
+                    spaceroom -= len(item)
+                spacedata = []
+                for i in range(spacecount):
+                    spacedata.append(spaceroom//spacecount)
+                for i in range(spaceroom % spacecount):
+                    spacedata[i] += 1
+                for i in range(len(x)-1):
+                    re += (x[i] + ' ' * spacedata[i])
+                re += x[len(x)-1]
+                return re
+
+        def letsselect(i):
+            if i == len(words) - 1:
+                return i+1
+            lenused = len(words[i])
+            while lenused <= maxWidth:
+                i += 1
+                if i == len(words):
+                    return i
+                lenused += 1 + len(words[i])
+            return i
+
+        ret = []
+        current = 0
+        next = letsselect(current)
+        while next != len(words):
+            ret.append(letsarrange(words[current:next]))
+            current = next
+            next = letsselect(current)
+        last_string = ''
+        for i in range(current, next):
+            if i == next - 1:
+                last_string += words[i]
+                last_string += ' ' * (maxWidth - len(last_string))
+                ret.append(last_string)
+                return ret
+            last_string += (words[i] + ' ')
+
+
+
+
+
