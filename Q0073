@@ -1,0 +1,24 @@
+class Solution:
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        if not matrix: return matrix
+        else:
+            d = []
+            m = len(matrix)
+            n = len(matrix[0])
+            for i in range(m):
+                for j in range(n):
+                    if matrix[i][j] == 0:
+                        d.append([i, j])
+            for item in d:
+                k = item[0]
+                l = item[1]
+                for j in range(n):
+                    matrix[k][j] = 0
+                for i in range(m):
+                    matrix[i][l] = 0
+            
+
