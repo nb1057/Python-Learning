@@ -1,0 +1,39 @@
+class Solution:
+    def minDistance(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        memo = {}
+        def D(i, j):
+            if i == 0:
+                if word1[0] in word2[:j+1]:
+                    return j
+                else:
+                    return j + 1
+            elif j == 0:
+                if word2[0] in word1[:i+1]:
+                    return i
+                else:
+                    return i + 1
+            elif (i, j) in memo:
+                return memo[(i, j)]
+            else:
+                if word1[i] == word2[j]:
+                    memo[(i, j)] = D(i-1, j-1)
+                    return memo[(i, j)]
+                else:
+                    memo[(i, j)] = 1 + min(D(i, j-1), D(i-1, j), D(i-1, j-1))
+                    return memo[(i, j)]
+
+        if not word1 and not word2:
+            return 0
+        elif not word1:
+            return len(word2)
+        elif not not word1 and not word2:
+            return len(word1)
+        else:
+            return D(len(word1)-1, len(word2)-1)
+
+
