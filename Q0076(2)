@@ -1,0 +1,36 @@
+class Solution:
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        if not s or not t:
+            return ""
+        ret = []
+        dt = {}
+        for item in t:
+            if item not in dt:
+                dt[item] = 1
+            else:
+                dt[item] += 1
+        stack = []
+        i = 0
+        while i < len(s):
+            if s[i] in dt:
+                stack.append(i)
+                dt[s[i]] -= 1
+                while max(dt.values()) <= 0:
+                    if not ret:
+                        ret = s[stack[0]:stack[len(stack)-1]+1]
+                    else:
+                        x = s[stack[0]:stack[len(stack)-1]+1]
+                        if len(ret) > len(x):
+                            ret = x
+                    dt[s[stack.pop(0)]] += 1
+            i += 1
+        if not ret:
+            return ""
+        return ret
+
+
