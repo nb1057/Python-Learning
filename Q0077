@@ -1,0 +1,29 @@
+class Solution:
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+
+        def docombine(n, k):
+            if k == 0:
+                return [[]]
+            else:
+                x = docombine(n-1, k-1)
+                for item in x:
+                    item.append(n)
+                if n > k:
+                    y = docombine(n-1, k)
+                    ans = x + y
+                else:
+                    ans = x
+                return ans
+
+        if n < k:
+            return []
+        else:
+            return docombine(n, k)
+
+
+
