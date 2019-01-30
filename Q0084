@@ -1,0 +1,24 @@
+class Solution:
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        memo = {}
+        def letsgo(i, j):
+            if i > j:
+                return 0
+            elif i == j:
+                return heights[i]
+            elif (i, j) in memo:
+                return memo[(i, j)]
+            else:
+                k = i + heights[i:j+1].index(min(heights[i:j+1]))
+                x = heights[k] * (j - i + 1)
+                y = letsgo(i, k-1)
+                z = letsgo(k+1, j)
+                memo[(i, j)] = max(x, y, z)
+                return memo[(i, j)]
+        return letsgo(0, len(heights)-1)
+
+
