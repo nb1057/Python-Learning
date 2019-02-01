@@ -1,0 +1,38 @@
+class Solution:
+    def isScramble(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: bool
+        """
+        def doit(s1, s2):
+            if len(s1) != len(s2):
+                return False
+            elif len(s1) == 1 and s1 == s2:
+                return True
+            else:
+                for i in range(1, len(s1)):
+                    s11 = s1[:i]
+                    s11.sort()
+                    s12 = s1[i:]
+                    s12.sort()
+
+                    s21 = s2[:i]
+                    s21.sort()
+                    s22 = s2[i:]
+                    s22.sort()
+                    if s11 == s21 and s12 == s22:
+                        if doit(s1[:i], s2[:i]) and doit(s1[i:], s2[i:]):
+                            return True
+                    s21 = s2[:len(s2)-i]
+                    s21.sort()
+                    s22 = s2[len(s2)-i:]
+                    s22.sort()
+                    if s11 == s22 and s12 == s21:
+                        if doit(s1[:i], s2[len(s2)-i:]) and doit(s1[i:], s2[:len(s2)-i]):
+                            return True
+                return False
+        s1 = list(s1)
+        s2 = list(s2)
+        return doit(s1, s2)
+
