@@ -1,0 +1,37 @@
+class Solution:
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+
+        def comb(nums1, i):
+            if i == 0:
+                return [[]]
+            elif len(nums1) < i:
+                return []
+            elif len(nums1) == i:
+                return [nums1]
+            else:
+                nums2 = []
+                nums2 += nums1
+                nums2.pop()
+                x = comb(nums2, i-1)
+                for item in x:
+                    item.append(nums1[len(nums1)-1])
+                y = comb(nums2, i)
+                return x + y
+
+        if not nums:
+            return []
+        ret = []
+        for i in range(len(nums)+1):
+            ret += comb(nums, i)
+        rett = []
+        for item in ret:
+            item.sort()
+            if item not in rett:
+                rett.append(item)
+        return rett
+
+
