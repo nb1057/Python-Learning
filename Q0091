@@ -1,0 +1,37 @@
+class Solution:
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+
+        memo = {}
+
+        def letsgo(i):
+            if len(s[i:]) == 0:
+                return 0
+            elif len(s[i:]) == 1:
+                if s[i] == '0':
+                    return 0
+                else:
+                    return 1
+            elif len(s[i:]) == 2:
+                if s[i] == '0':
+                    return 0
+                elif s[i] == '1' or s[i] == '2' and int(s[i+1]) <= 6:
+                    return 1 + letsgo(i+1)
+                else:
+                    return letsgo(i+1)
+            elif i in memo:
+                return memo[i]
+            else:
+                if s[i] == '0': return 0
+                elif s[i] == '1' or s[i] == '2' and int(s[i+1]) <= 6:
+                    memo[i+1] = letsgo(i+1)
+                    memo[i+2] = letsgo(i+2)
+                    return memo[i+1] + memo[i+2]
+                else:
+                    memo[i+1] = letsgo(i+1)
+                    return memo[i+1]
+        return letsgo(0)
+
