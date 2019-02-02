@@ -1,0 +1,22 @@
+class Solution:
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        def d(n):
+            ret = []
+            if n == 1 :
+                return [1]
+            else:
+                x = d(n-1)
+                for i in range(n):
+                    if i == 0:
+                        ret.append(sum(x))
+                    else:
+                        ret.append(sum(x[i-1:]))
+                return ret
+            
+        return sum(d(n))
+
+
