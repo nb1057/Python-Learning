@@ -1,0 +1,82 @@
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def generateTrees(self, n):
+        """
+        :type n: int
+        :rtype: List[TreeNode]
+        """
+        def duplicatetree(node):
+            # input:treenode output: treenode
+            head = TreeNode(node.val)
+            if node.left != None:
+                head.left = duplicatetree(node.left)
+            if node.right != None:
+                head.right = duplicatetree(node.right)
+            return head
+
+        def tree2list(root):
+            # input: TreeNode output:list representation of the tree
+            if root == None:
+                return []
+            ret = [root.val]
+            nodelist = [root]
+            while len(nodelist) != 0:
+                next_nodelist = []
+                for item in nodelist:
+                    if item.left != None:
+                        ret.append(item.left.val)
+                        next_nodelist.append(item.left)
+                    else:
+                        ret.append(None)
+                    if item.right != None:
+                        ret.append(item.right.val)
+                        next_nodelist.append(item.right)
+                    else:
+                        ret.append(None)
+                nodelist = next_nodelist
+            while ret[len(ret)-1] == None:
+                ret.pop()
+            return ret
+
+        def treegrow(n):
+            # input: integer  output: list of the root nodes
+            ret = []
+            if n == 1:
+                return [TreeNode(1)]
+            else:
+                for headnode in treegrow(n - 1):
+                    a = TreeNode(n)
+                    sample = duplicatetree(headnode)
+                    a.left = sample
+                    ret.append(a)
+                    item = headnode
+                    while item.right != None:
+                        a = TreeNode(n)
+                        b = item.right
+                        item.right = a
+                        a.left = b
+                        sample = duplicatetree(headnode)
+                        ret.append(sample)
+                        item.right = b
+                        item = item.right
+                    a = TreeNode(n)
+                    item.right = a
+                    sample = duplicatetree(headnode)
+                    ret.append(sample)
+                    item.right = None
+                return ret
+        if n == 0:
+            return []
+        x = treegrow(n)
+        ret = []
+        for i in x:
+            ret.append(tree2list(i))
+        return ret
+
+
