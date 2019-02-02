@@ -11,10 +11,8 @@ class Solution:
         :type root: TreeNode
         :rtype: List[int]
         """
+        if root == None:
+            return []
+        return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
         
-        def read(node):
-            if node == None:
-                return []
-            return read(node.left) + [node.val] + read(node.right)
-        
-        return read(root)
+    
