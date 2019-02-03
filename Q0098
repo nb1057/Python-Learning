@@ -1,0 +1,37 @@
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        def node2list(node):
+            ret = []
+            if node == None:
+                return ret
+            else:
+                ret.append(node.val)
+                ret += node2list(node.left)
+                ret += node2list(node.right)
+                return ret
+
+        def nodecheck(node):
+            if node == None:
+                return True
+            if node.left != None and node.val <= max(node2list(node.left)):
+                return False
+            if node.right != None and node.val >= min(node2list(node.right)):
+                return False
+            return nodecheck(node.left) and nodecheck(node.right)
+
+        if root == None:
+            return True
+        return nodecheck(root)
+
