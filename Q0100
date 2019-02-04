@@ -1,0 +1,39 @@
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def isSameTree(self, p, q):
+        """
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: bool
+        """
+        def node2list(node):
+            # input: rootnode output: list of val
+            if node == None:
+                return []
+            ret = [node.val]
+            lists = [node.left, node.right]
+            while len(lists) > 0:
+                next_list = []
+                for item in lists:
+                    if item == None:
+                        ret.append(None)
+                    else:
+                        next_list.append(item.left)
+                        next_list.append(item.right)
+                        ret.append(item.val)
+                lists = next_list
+            
+            while ret[len(ret)-1] == None:
+                ret.pop()
+            return ret
+
+        return node2list(p) == node2list(q)
+
+
