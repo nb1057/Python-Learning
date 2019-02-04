@@ -1,0 +1,35 @@
+# Probably correct
+class Solution:
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        def getlist(i,j,k):
+            lists = []
+            for l in range(i, j+1):
+                lists.append(matrix[l][k])
+            return lists
+        
+        if not matrix:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        maxval = 0
+        for i1 in range(m):
+            for i2 in range(i1, m):
+                j1 = 0
+                while j1 < n:
+                    tmp = 0
+                    j2 = j1
+                    while j2 < n and '0' not in getlist(i1, i2, j2):
+                        tmp += i2 - i1 + 1
+                        j2 += 1
+                    maxval = max(maxval, tmp)
+                    j1 = j2 + 1
+        return maxval
+
+
+
+
+
