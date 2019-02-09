@@ -1,0 +1,38 @@
+class Solution:
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        if not matrix:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        datamatrix = []
+        for i in range(m):
+            datamatrix.append([])
+            for j in range(n):
+                if j == 0:
+                    datamatrix[i].append(int(matrix[i][j]))
+                elif matrix[i][j] == '0':
+                    datamatrix[i].append(0)
+                else:
+                    datamatrix[i].append(datamatrix[i][j-1] + 1)
+        minpool = []
+        ret = 0
+        for j in range(n):
+            minpool = []
+            for i in range(m):
+                if datamatrix[i][j] != 0:
+                    minpool.append(datamatrix[i][j])
+                    for k in range(len(minpool)-1, -1, -1):
+                        ret = max(ret, min(minpool[k: len(minpool)]) * (len(minpool) - k))
+                else:
+                    minpool = []
+        return ret
+
+
+
+
+
+
