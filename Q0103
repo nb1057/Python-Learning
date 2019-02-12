@@ -1,0 +1,24 @@
+class Solution:
+    def zigzagLevelOrder(self, root: 'TreeNode') -> 'List[List[int]]':
+        if root == None:
+            return []
+        ret = []
+        flag = 1
+        flist = [root]
+        while len(flist) != 0:
+            vallist = []
+            for item in flist:
+                vallist.append(item.val)
+            if flag != 1:
+                vallist.reverse()
+            flag = -flag
+            ret.append(vallist)
+            nodelist = []
+            for item in flist:
+                if item.left != None:
+                    nodelist.append(item.left)
+                if item.right != None:
+                    nodelist.append(item.right)   
+            flist = nodelist
+        return ret
+
