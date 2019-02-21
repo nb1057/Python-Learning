@@ -1,0 +1,35 @@
+class Solution:
+    def numDistinct(self, s: 'str', t: 'str') -> 'int':
+        """
+        s == '' and t == '': 1
+        s != '' and t == '': 1
+        s == '' and t != '': 0
+        :param s:
+        :param t:
+        :return:
+        """
+        memo = {}
+
+        def letsgo(i:'int', j:'int') -> 'int':
+            if (i, j) in memo:
+                return memo[(i, j)]
+            s1 = s[i:]
+            target = t[j]
+            count = 0
+            if len(t[j:]) == 1:
+                return s1.count(target)
+            else:
+                i1 = i
+                while s.find(target, i1) != -1:
+                    index = s.find(target, i1)
+                    count += letsgo(index+1, j+1)
+                    i1 = index + 1
+                memo[(i, j)] = count
+                return count
+
+        if t == "":
+            return 1
+        else:
+            return letsgo(0, 0)
+
+
