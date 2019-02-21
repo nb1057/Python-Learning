@@ -1,0 +1,43 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+
+class Solution:
+    def pathSum(self, root: 'TreeNode', sum: 'int') -> 'List[List[int]]':
+        ret = []
+        rett = []
+
+        def letsgo(root:'TreeNode') -> 'List[List[int]]':
+            ret = []
+            if root == None:
+                return []
+            else:
+                if root.left == None and root.right == None:
+                    return [[root.val]]
+                if root.left != None:
+                    leftlist = letsgo(root.left)
+                    for item in leftlist:
+                        item.insert(0, root.val)
+                    ret += leftlist
+                if root.right != None:
+                    rightlist = letsgo(root.right)
+                    for item in rightlist:
+                        item.insert(0, root.val)
+                    ret += rightlist
+                return ret
+
+        def getsum(list1:'List[int]') -> 'int':
+            ret = 0
+            for item in list1:
+                ret += item
+            return ret
+
+        ret = letsgo(root)
+        for item in ret:
+            if getsum(item) == sum:
+                rett.append(item)
+        return rett
