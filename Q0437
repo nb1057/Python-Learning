@@ -1,0 +1,42 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def pathSum(self, root: 'TreeNode', sum: 'int') -> 'int':
+
+        def letscount(list1:'List[TreeNode]', sum:'int') -> 'int':
+            ret = 0
+            tmp = 0
+            for i in range(len(list1)-1, -1, -1):
+                tmp += list1[i].val
+                if tmp == sum:
+                    ret += 1
+            return ret
+
+        if root == None:
+            return 0
+        stack = [root]
+        covered = []
+        ret = 0
+        while not not stack:
+            a = stack[len(stack) - 1]
+            if a not in covered:
+                covered.append(a)
+                ret += letscount(stack, sum)
+                if a.left != None:
+                    stack.append(a.left)
+                elif a.right!= None:
+                    stack.append(a.right)
+                else:
+                    stack.pop()
+            else:
+                if a.right != None and a.right not in covered:
+                    stack.append(a.right)
+                else:
+                    stack.pop()
+        return ret
+
