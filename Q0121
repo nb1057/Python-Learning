@@ -1,0 +1,12 @@
+class Solution:
+    def maxProfit(self, prices: 'List[int]') -> 'int':
+        if not prices:
+            return 0
+        ret = 0
+        mini = prices[0]
+        for index, item in enumerate(prices):
+            if item >= mini:
+                ret = max(ret, item - mini)
+            mini = min(mini, item)
+        return ret
+
