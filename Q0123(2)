@@ -1,0 +1,25 @@
+class Solution:
+    def maxProfit(self, prices: 'List[int]') -> 'int':
+        if len(prices) in [0, 1]:
+            return 0
+        mini = prices[0]
+        profit = []
+        max_profit = 0
+        for i in range(len(prices)):
+            max_profit = max(max_profit, prices[i] - mini)
+            profit.append(max_profit)
+            mini = min(mini, prices[i])
+
+        maxi = prices[-1]
+        max_profit = 0
+        ret = 0
+        for i in range(len(prices)-1, -1, -1):
+            max_profit = max(max_profit, maxi - prices[i])
+            maxi = max(maxi, prices[i])
+            if i != 0:
+                ret = max(max_profit + profit[i - 1], ret)
+            else:
+                ret = max(max_profit, ret)
+        return ret
+
+
