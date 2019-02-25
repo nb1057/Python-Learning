@@ -1,0 +1,37 @@
+#probably correct
+class Solution:
+    def ladderLength(self, beginWord, endWord, wordList):
+        def oneworddiff(word1:str,word2:str) -> bool:
+            count = 0
+            i = 0
+            while i < len(word1):
+                if word1[i] != word2[i]:
+                    count += 1
+                if count > 1:
+                    return False
+                i += 1
+            return True
+
+        if endWord not in wordList:
+            return 0
+
+        memo = [endWord]
+        wordList.remove(endWord)
+        count = 2
+        nextlist = [0]
+        while len(nextlist) != 0:
+            for item in memo:
+                if oneworddiff(item, beginWord):
+                    return count
+            nextlist = []
+            for item1 in wordList:
+                for item2 in memo:
+                    if oneworddiff(item1, item2):
+                        nextlist.append(item1)
+                        break
+            for item in nextlist:
+                wordList.remove(item)
+                memo.append(item)
+            count += 1
+        return 0
+
