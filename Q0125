@@ -1,0 +1,12 @@
+class Solution:
+    def isPalindrome(self, s: 'str') -> bool:
+        a = ''
+        alpha_base = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        num_base = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        s = s.lower()
+        for item in s:
+            if item in alpha_base or item in num_base:
+                a += item
+        return a == a[::-1]
+
+
