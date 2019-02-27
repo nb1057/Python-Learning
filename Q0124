@@ -1,0 +1,61 @@
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def maxPathSum(self, root: 'TreeNode') -> 'int':
+        if root is None:
+            return 0
+
+        # when max node value is negative
+        queue = [root]
+        tmp_max = root.val
+        while queue:
+            cur_node = queue.pop(0)
+            if cur_node.val >= 0:
+                tmp_max = cur_node.val
+                break
+            if cur_node.val > tmp_max:
+                tmp_max = cur_node.val
+            if cur_node.left is not None:
+                queue.append(cur_node.left)
+            if cur_node.right is not None:
+                queue.append(cur_node.right)
+        if tmp_max < 0:
+            return tmp_max
+
+        memo = {}
+
+        def letsgo(node: 'TreeNode') -> 'int':
+            if node in memo:
+                return memo[node]
+            if node.left is None and node.right is None:
+                ans = max(node.val, 0)
+            elif node.left is None:
+                ans = max(node.val+letsgo(node.right), node.val, 0)
+            elif node.right is None:
+                ans = max(node.val+letsgo(node.left), node.val, 0)
+            else:
+                ans = max(node.val+letsgo(node.left), node.val+letsgo(node.right), node.val, 0)
+            memo[node] = ans
+            return ans
+
+        queue = [root]
+        ret = 0
+        while queue:
+            cur_node = queue.pop(0)
+            if cur_node.left is not None:
+                queue.append(cur_node.left)
+            if cur_node.right is not None:
+                queue.append(cur_node.right)
+
+            if cur_node.left is not None and cur_node.right is not None:
+                x, y, z = letsgo(cur_node.left), letsgo(cur_node.right), cur_node.val
+                ret = max(ret, z, z+x, z+y, z+x+y)
+            else:
+                ret = max(ret, letsgo(cur_node))
+        return ret
