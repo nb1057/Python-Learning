@@ -1,0 +1,54 @@
+#probably correct
+class Solution:
+    def solve(self, board: 'List[List[str]]') -> 'None':
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def check(i:'int', j:'int') -> 'bool':
+            """
+            :param i:
+            :param j:
+            :return: 'True':it is closed
+            """
+            if (i-1, j) in d or (i+1, j) in d or (i, j-1) in d or (i, j+1) in d:
+                d.append((i, j))
+                return False
+            if i in [0, m-1] or j in [0, n-1]:
+                d.append((i, j))
+                return False
+            if (i-1, j) not in visited_list and board[i-1][j] == 'O':
+                visited_list.append((i, j))
+                if not check(i-1, j):
+                    d.append((i, j))
+                    return False
+            if (i+1, j) not in visited_list and board[i+1][j] == 'O':
+                visited_list.append((i, j))
+                if not check(i+1, j):
+                    d.append((i, j))
+                    return False
+            if (i, j-1) not in visited_list and board[i][j-1] == 'O':
+                visited_list.append((i, j))
+                if not check(i, j-1):
+                    d.append((i, j))
+                    return False
+            if (i, j+1) not in visited_list and board[i][j+1] == 'O':
+                visited_list.append((i, j))
+                if not check(i, j+1):
+                    d.append((i, j))
+                    return False
+            return True
+
+        d = [] # For those 'O' that connect outside
+
+        if len(board) != 0 and len(board[0]) != 0:
+            m, n = len(board), len(board[0])
+            for i in range(m):
+                for j in range(n):
+                    visited_list = []
+                    if board[i][j] == 'O':
+                        visited_list.append((i, j))
+                        if check(i, j):
+                            for item in visited_list:
+                                board[item[0]][item[1]] = 'X'
+
+
