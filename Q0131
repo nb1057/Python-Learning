@@ -1,0 +1,36 @@
+from collections import defaultdict
+
+
+class Solution:
+    def partition(self, s: 'str') -> 'List[List[str]]':
+        memo = defaultdict(list)
+
+        def letsgo(i, j) -> 'list[list[str]]':
+            if i == j:
+                return [[s[i]]]
+            if (i, j) in memo:
+                return memo[(i, j)]
+            k = i
+            ret = []
+            while k < j:
+                if s[i:k+1] == s[i:k+1][::-1]:
+                    tmp = letsgo(k+1, j)
+                    tmp1 = []
+                    for item in tmp:
+                        tmp1.append([s[i:k+1]] + item)
+                    ret += tmp1
+                k += 1
+            if s[i:k+1] == s[i:k+1][::-1]:
+                ret += [[s[i:k+1]]]
+            ans = []
+            ans += ret
+            memo[(i, j)] = ans
+            return ret
+
+        if not s:
+            return []
+        else:
+            return letsgo(0, len(s) - 1)
+
+
+
