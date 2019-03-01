@@ -1,0 +1,35 @@
+class Solution:
+    def solve(self, board: 'List[List[str]]') -> 'None':
+        """
+        Do not return anything, modify board in-place instead.
+        """
+
+        def check(i:'int', j:'int') -> 'None':
+            if board[i][j] == 'O' and (i, j) not in d0:
+                d0.append((i, j))
+                if i != 0:
+                    check(i-1, j)
+                if i != m - 1:
+                    check(i+1, j)
+                if j != 0:
+                    check(i, j-1)
+                if j != n - 1:
+                    check(i, j+1)
+
+        if len(board) != 0 and len(board[0]) != 0:
+            m = len(board)
+            n = len(board[0])
+            d0 = [] # For those should be remained 'O
+            for j in range(n):
+                check(0, j)
+                check(m-1, j)
+            for i in range(m):
+                check(i, 0)
+                check(i, n-1)
+            for i in range(m):
+                for j in range(n):
+                    if board[i][j] == 'O' and (i, j) not in d0:
+                        board[i][j] = 'X'
+
+                        
+
