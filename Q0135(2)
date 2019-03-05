@@ -1,0 +1,37 @@
+class Solution:
+    def candy(self, ratings: 'list[int]') -> 'int':
+        def letsgo1(ret) -> 'list':
+            for i in range(len(ratings) - 1):
+                if ratings[i] > ratings[i + 1] and ret[i] <= ret[i + 1]:
+                    ret[i] = ret[i + 1] + 1
+                elif ratings[i] < ratings[i + 1] and ret[i] >= ret[i + 1]:
+                    ret[i + 1] = ret[i] + 1
+            return ret
+
+        def letsgo2(ret) -> 'list':
+            for i in range(len(ratings)-1,0,-1):
+                if ratings[i] < ratings[i-1] and ret[i] >= ret[i-1]:
+                    ret[i-1] = ret[i] + 1
+                elif ratings[i] > ratings[i-1] and ret[i] <= ret[i-1]:
+                    ret[i] = ret[i-1] + 1
+            return ret
+
+        positive_direction = True
+        ret = [1] * len(ratings)
+        ret_tmp = []
+        ret_tmp += ret
+        tmp = letsgo1(ret_tmp)
+        positive_direction = not positive_direction
+        while ret != tmp:
+            ret = tmp
+            ret_tmp = []
+            ret_tmp += ret
+            if positive_direction:
+                tmp = letsgo1(ret_tmp)
+            else:
+                tmp = letsgo2(ret_tmp)
+            positive_direction = not positive_direction
+        return sum(ret)
+
+
+
