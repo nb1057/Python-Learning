@@ -1,0 +1,25 @@
+#probably correct
+class Solution:
+    def candy(self, ratings: 'list[int]') -> 'int':
+        def letsgo(ret) -> 'list':
+            for i in range(len(ratings) - 1):
+                if ratings[i] > ratings[i + 1] and ret[i] <= ret[i + 1]:
+                    ret[i] = ret[i + 1] + 1
+                elif ratings[i] < ratings[i + 1] and ret[i] >= ret[i + 1]:
+                    ret[i + 1] = ret[i] + 1
+            return ret
+
+        ret = [1] * len(ratings)
+        ret_tmp = []
+        ret_tmp += ret
+        tmp = letsgo(ret_tmp)
+        while ret != tmp:
+            ret = tmp
+            ret_tmp = []
+            ret_tmp += ret
+            tmp = letsgo(ret_tmp)
+        return sum(ret)
+
+
+
+
