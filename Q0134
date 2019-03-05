@@ -1,0 +1,31 @@
+class Solution:
+    def canCompleteCircuit(self, gas: 'list[int]', cost: 'list[int]') -> 'int':
+        for i in range(len(gas)):
+            gas[i] -= cost[i]
+        if sum(gas) < 0:
+            return -1
+        i = gas.index(min(gas))
+        count = 0
+        while gas[i] < 0 or count < len(gas):
+            if gas[i] < 0:
+                count = 0
+                if i == 0:
+                    gas[len(gas)-1] += gas[i]
+                    gas[i] = 0
+                    i = len(gas) - 1
+                else:
+                    gas[i-1] += gas[i]
+                    gas[i] = 0
+                    i -= 1
+            else:
+                count += 1
+                if i == 0:
+                    i = len(gas) - 1
+                else:
+                    i -= 1
+        return i
+
+
+
+
+
