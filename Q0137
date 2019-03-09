@@ -1,0 +1,12 @@
+class Solution:
+    def singleNumber(self, nums: 'list[int]') -> 'int':
+        stack = []
+        while nums:
+            x = nums.pop(0)
+            stack.append(x)
+            if stack.count(x) == 3:
+                stack.remove(x)
+                stack.remove(x)
+                stack.remove(x)
+        return stack[0]
+            
