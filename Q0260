@@ -1,0 +1,12 @@
+class Solution:
+    def singleNumber(self, nums: 'list[int]') -> 'list[int]':
+        a = nums[0]
+        ret = []
+        for index, item in enumerate(nums):
+            if index != 0:
+                a ^= item
+        for index, item in enumerate(nums):
+            x = a ^ item
+            if x in nums and nums.count(x) == 1:
+                ret.append(item)
+        return ret
