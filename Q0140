@@ -1,0 +1,26 @@
+from collections import defaultdict
+
+
+class Solution:
+    def wordBreak(self, s: 'str', wordDict: 'list[str]') -> 'list[str]':
+        memo = defaultdict(list)
+
+        def letsgo(i:'int') -> 'list[str]':
+            if i in memo:
+                return memo[i]
+            if i == len(s):
+                return [""]
+            memo[i] = []
+            for item in wordDict:
+                if s[i:][:len(item)] == item:
+                    tmplist = letsgo(i+len(item))
+                    for string in tmplist:
+                        if string == "":
+                            string = item
+                        else:
+                            string = item + ' ' + string
+                        memo[i].append(string)
+            return memo[i]
+
+        return letsgo(0)
+
