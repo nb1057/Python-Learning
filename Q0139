@@ -1,0 +1,18 @@
+class Solution:
+    def wordBreak(self, s: 'str', wordDict: 'list[str]') -> 'bool':
+        memo = {}
+        def letsgo(i:'int') -> 'bool':
+            if i in memo:
+                return memo[i]
+            for item in wordDict:
+                if s[i:][:len(item)] == item and len(s[i:]) == len(item):
+                    memo[i] = True
+                    return True
+                elif s[i:][:len(item)] == item:
+                    if letsgo(i+len(item)):
+                        memo[i] = True
+                        return True
+            memo[i] = False
+            return False
+        return letsgo(0)
+                    
