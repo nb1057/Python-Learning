@@ -1,0 +1,46 @@
+# Definition for a point.
+class Point:
+    def __init__(self, a=0, b=0):
+        self.x = a
+        self.y = b
+
+
+class Solution:
+    def maxPoints(self, points: 'list[Point]') -> 'int':
+        point_count = {}
+        i = 0
+        while i < len(points):
+            if (points[i].x, points[i].y) in point_count:
+                point_count[(points[i].x, points[i].y)] += 1
+                points.pop(i)
+            else:
+                point_count[(points[i].x, points[i].y)] = 1
+                i += 1
+        L = len(points)
+        if L == 0:
+            return 0
+        elif L == 1:
+            return point_count[(points[0].x, points[0].y)]
+        visited = []
+        ret = 0
+        for i in range(L-1):
+            for j in range(i+1, L):
+                if (i, j) in visited:
+                    continue
+                tmp = [i, j]
+                for k in range(j+1, L):
+                    if self.threepointssharealine(points[i], points[j], points[k]):
+                        tmp.append(k)
+                tmp_ret = 0
+                for index in tmp:
+                    tmp_ret += point_count[(points[index].x, points[index].y)]
+                ret = max(ret, tmp_ret)
+                for m in range(len(tmp)-1):
+                    for n in range(m+1, len(tmp)):
+                        visited.append((tmp[m], tmp[n]))
+        return ret
+
+    def threepointssharealine(self, point1: 'Point', point2: 'Point', point3: 'Point') -> 'bool':
+        return (point1.x - point2.x) * (point2.y - point3.y) == (point1.y - point2.y) * (point2.x - point3.x)
+
+
