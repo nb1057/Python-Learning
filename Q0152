@@ -1,0 +1,38 @@
+class Solution:
+    def maxProduct(self, nums: 'list[int]') -> 'int':
+        cur = []
+        ret = max(nums)
+        for index, item in enumerate(nums):
+            if item == 0:
+                ret = max(ret, self.getmax(cur))
+                cur = []
+            elif index == len(nums) - 1:
+                cur.append(item)
+                ret = max(ret, self.getmax(cur))
+                cur = []
+            else:
+                cur.append(item)
+        return ret
+
+    def getmax(self, nums:'list[int]') -> 'int':
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        negative_index = []
+        for index, item in enumerate(nums):
+            if item < 0:
+                negative_index.append(index)
+        if len(negative_index) % 2 == 0:
+            return self.getmulti(nums)
+        else:
+            if self.getmulti(nums[:negative_index[0]+1]) > self.getmulti(nums[negative_index[-1]:]):
+                return self.getmulti(nums[negative_index[0]+1:])
+            else:
+                return self.getmulti(nums[:negative_index[-1]])
+
+    def getmulti(self,nums:'list[int]') -> 'int':
+        ret = 1
+        for item in nums:
+            ret *= item
+        return ret
