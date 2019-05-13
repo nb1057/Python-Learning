@@ -1,0 +1,30 @@
+class Solution:
+    def maximumGap(self, nums: list) -> int:
+        if len(nums) < 2:
+            return 0
+        elif len(nums) == 2:
+            return max(nums) - min(nums)
+        max_nums, min_nums = max(nums), min(nums)
+        step = (max_nums - min_nums) / (len(nums) - 1)
+        b = []
+        for i in range(len(nums) - 1):
+            b.append([])
+        for i in range(len(nums)):
+            if nums[i] == min_nums:
+                b[0].append(nums[i])
+            elif nums[i] == max_nums:
+                b[len(nums) - 2].append(nums[i])
+            else:
+                x = int((nums[i] - min_nums) // step)
+                b[x].append(nums[i])
+        if len(b[len(nums) - 2]) == 0:
+            return 0
+        ret = 0
+        i, j = 0, 0
+        while i < len(nums) - 2:
+            j = i + 1
+            while len(b[j]) == 0:
+                j += 1
+            ret = max(ret, min(b[j]) - max(b[i]))
+            i = j
+        return ret
