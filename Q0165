@@ -1,0 +1,32 @@
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        if len(version1) == 0 and len(version2) == 0:
+            return 0
+        elif len(version1) == 0:
+            i = 0
+            while i < len(version2) and version2[i] != '.':
+                i += 1
+            w2, x2 = version2[:i], version2[i+1:]
+            if int(w2) > 0: return -1
+            else: return self.compareVersion('', x2)
+        elif len(version2) == 0:
+            i = 0
+            while i < len(version1) and version1[i] != '.':
+                i += 1
+            w1, x1 = version1[:i], version1[i+1:]
+            if int(w1) > 0: return 1
+            else: return self.compareVersion(x1, '')
+        else:
+            i = 0
+            while i < len(version1) and version1[i] != '.':
+                i += 1
+            w1, x1 = version1[:i], version1[i+1:]
+            i = 0
+            while i < len(version2) and version2[i] != '.':
+                i += 1
+            w2, x2 = version2[:i], version2[i+1:]
+            if int(w1) > int(w2): return 1
+            elif int(w1) < int(w2): return -1
+            else:
+                return self.compareVersion(x1, x2)
+
