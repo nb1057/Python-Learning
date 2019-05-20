@@ -1,0 +1,43 @@
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        if numerator == 0: return "0"
+        if numerator*denominator > 0: flag = 1
+        else: flag = -1
+        numerator = abs(numerator)
+        denominator = abs(denominator)
+        z = self.f1(numerator, denominator)
+        numerator /= z
+        denominator /= z
+        numerator = int(numerator)
+        denominator = int(denominator)
+        if numerator % denominator == 0:
+            if flag == 1: return str(int(numerator/denominator))
+            else: return "-" + str(int(numerator/denominator))
+        dic = {}
+        index = 0
+        ret1 = str(numerator // denominator)
+        ret2 = ""
+        numerator = numerator % denominator
+        while numerator not in dic.keys() and numerator != 0:
+            dic[numerator] = index
+            ret2 += str(numerator * 10 // denominator)
+            numerator = (numerator * 10) % denominator
+            index += 1
+        if numerator == 0:
+            if flag == 1: return ret1 + "." + ret2
+            else: return "-" + ret1 + "." + ret2
+        else:
+            target = dic[numerator]
+            ret2 = ret2[:target] + "(" + ret2[target:] + ")"
+            if flag == 1: return ret1 + "." + ret2
+            else: return "-" + ret1 + "." + ret2
+
+    def f1(self, x: int, y: int) -> int:
+        if x == y: return x
+        elif x > y:
+            if x % y == 0: return y
+            else: return self.f1(y, x % y)
+        else:
+            if y % x == 0: return x
+            else: return self.f1(x, y % x)
+
