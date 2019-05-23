@@ -1,0 +1,12 @@
+class Solution:
+    def convertToTitle(self, n: int) -> str:
+        n -= 1
+        ret = ""
+        sample = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        ret += sample[n%26]
+        while n // 26 >= 1:
+            n = n // 26
+            n -= 1
+            ret = sample[n % 26] + ret
+        return ret
+
