@@ -1,0 +1,21 @@
+class Solution:
+    def largestNumber(self, nums: list) -> str:
+        L = len(nums)
+        for i in range(L):
+            nums[i] = str(nums[i])
+        for i in range(L - 1):
+            tmp = i
+            for j in range(i, L):
+                if self.comp(nums[j], nums[tmp]): tmp = j
+            nums[i], nums[tmp] = nums[tmp], nums[i]
+        ret = ""
+        for i in range(L):
+            ret += nums[i]
+        while ret[0] == "0" and len(ret) > 1:
+            ret = ret[1:]
+        return ret
+
+    def comp(self, num1:str, num2:str) -> bool:
+        return int(num1+num2) > int(num2+num1)
+
+
