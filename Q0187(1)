@@ -1,0 +1,13 @@
+#Probably Correct
+class Solution:
+    def findRepeatedDnaSequences(self, s: str) -> list:
+        sample = []
+        ret = []
+        for i in range(len(s)):
+            word = s[i:i+10]
+            if len(word) < 10: break
+            elif word in ret: pass
+            elif word in sample: ret.append(word)
+            else: sample.append(word)
+        return ret
+
