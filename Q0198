@@ -1,0 +1,13 @@
+class Solution:
+    def rob(self, nums:list) -> int:
+        memo = {}
+        if not nums: return 0
+        def letsgo(x: int) -> int:
+            if x in memo.keys(): return memo[x]
+            if x <= 1: return max(nums[:x+1])
+            else:
+                memo[x] = max(letsgo(x-2)+nums[x],letsgo(x-1))
+                return memo[x]
+
+        return letsgo(len(nums)-1)
+
