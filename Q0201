@@ -1,0 +1,14 @@
+class Solution:
+    def rangeBitwiseAnd(self, m: int, n: int) -> int:
+        m_b = bin(m)[2:]
+        n_b = bin(n)[2:]
+        if len(m_b) > len(n_b):
+            n_b = "0" * (len(m_b) - len(n_b)) + n_b
+        else:
+            m_b = "0" * (len(n_b) - len(m_b)) + m_b
+        L = len(m_b)
+        for i in range(L):
+            if m_b[i] != n_b[i]: 
+                ret_b = m_b[:i] + "0" *(L - i)
+                return int(ret_b, 2)
+        return m
