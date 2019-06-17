@@ -1,0 +1,12 @@
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        dict = {}
+        marked = []
+        for i in range(len(s)):
+            if s[i] in dict.keys() and dict[s[i]] != t[i]: return False
+            elif s[i] in dict.keys(): pass
+            elif t[i] in marked: return False
+            else: 
+                dict[s[i]] = t[i]
+                marked.append(t[i])
+        return True
