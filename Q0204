@@ -1,0 +1,19 @@
+#Probably correct
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        primelist = [2]
+        ret = 0
+
+        def primecheck(n: int) -> bool:
+            if n in primelist: return True
+            elif n < primelist[-1]: return False
+            i = 0
+            while i < len(primelist) and primelist[i] <= n**0.5:
+                if n % primelist[i] == 0: return False
+                i += 1
+            primelist.append(n)
+            return True
+
+        for i in range(2, n):
+            if primecheck(i): ret += 1
+        return ret
