@@ -1,0 +1,35 @@
+#PROBABLY CORRECT
+from collections import defaultdict
+
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: list) -> bool:
+        dict = defaultdict(list)
+        while prerequisites:
+            x = prerequisites.pop()
+            dict[x[1]].append(x[0])
+        i = 0
+        learnt = list()
+        tmp = learnt
+        while i < numCourses:
+            if i in learnt: i += 1
+            else:
+                flag = True
+                for j in range(numCourses):
+                    if i in dict[j]:
+                        flag = False
+                        break
+                if flag:
+                    dict[i] = []
+                    learnt.append(i)
+                    i = 0
+                else:
+                    i += 1
+            if len(learnt) == numCourses: return True
+            elif i == numCourses and tmp == learnt: return False
+            elif i == numCourses: tmp, i = learnt, 0
+
+
+
+
+
