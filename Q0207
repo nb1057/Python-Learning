@@ -1,0 +1,33 @@
+from collections import defaultdict
+
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: list) -> bool:
+        def pointcheck(x) -> bool:
+            checked.append(x)
+            if x in visited: return False
+            else:
+                if not dict[x]: return True
+                else:
+                    visited.append(x)
+                    for i in dict[x]:
+                        if not pointcheck(i): return False
+                    visited.pop()
+                    return True
+
+        dict = defaultdict(list)
+        while prerequisites:
+            x = prerequisites.pop()
+            dict[x[0]].append(x[1])
+        visited = list()
+        checked = list()
+        i = 0
+        while i < numCourses:
+            if i in checked: pass
+            else:
+                if not pointcheck(i): return False
+                else:
+                    for j in range(numCourses):
+                        if i in dict[j]: dict[j].remove(i)
+            i += 1
+        return True
