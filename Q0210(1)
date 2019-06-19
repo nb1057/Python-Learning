@@ -1,0 +1,48 @@
+#Probably Correct
+from collections import defaultdict
+
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: list) -> list:
+
+        def checkit(x) -> list:
+            if x in visited: return []
+            checked.append(x)
+            ret = []
+            visited.append(x)
+            if dict[x]:
+                prelist = []
+                prelist += dict[x]
+                for item in prelist:
+                    if item in ret:
+                        continue
+                    tmp = checkit(item)
+                    if not tmp:
+                        return []
+                    else:
+                        ret += tmp
+            visited.pop()
+            ret += [x]
+            for item in ret:
+                for w in range(numCourses):
+                    if item in dict[w]: dict[w].remove(item)
+            return ret
+
+        dict = defaultdict(list)
+        while prerequisites:
+            x = prerequisites.pop()
+            dict[x[0]].append(x[1])
+        checked = []
+        visited = []
+        ret_final = []
+        i = 0
+        while i < numCourses:
+            if i not in checked:
+                tmp = checkit(i)
+                if not tmp: return []
+                else: ret_final += tmp
+            i += 1
+        return ret_final
+
+
+
