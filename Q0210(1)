@@ -1,4 +1,3 @@
-#Probably Correct
 from collections import defaultdict
 
 
@@ -11,18 +10,12 @@ class Solution:
             ret = []
             visited.append(x)
             if dict[x]:
-                prelist = []
-                prelist += dict[x]
-                for item in prelist:
-                    if item in ret:
-                        continue
-                    tmp = checkit(item)
-                    if not tmp:
-                        return []
-                    else:
-                        ret += tmp
-            visited.pop()
-            ret += [x]
+                i = 0
+                while i < len(dict[x]):
+                    tmp = checkit(dict[x][i])
+                    if not tmp: return []
+                    else: ret += tmp
+            ret += [visited.pop()]
             for item in ret:
                 for w in range(numCourses):
                     if item in dict[w]: dict[w].remove(item)
@@ -43,6 +36,3 @@ class Solution:
                 else: ret_final += tmp
             i += 1
         return ret_final
-
-
-
