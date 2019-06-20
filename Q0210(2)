@@ -1,0 +1,32 @@
+#Probably correct
+from collections import defaultdict
+
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: list) -> list:
+        dict1 = defaultdict(list)  # elements in the list mean courses required
+        dict2 = defaultdict(list)  # elements in the list mean courses unlocked
+        while prerequisites:
+            x = prerequisites.pop()
+            dict1[x[0]].append(x[1])
+            dict2[x[1]].append(x[0])
+        learnt = []
+        while len(learnt) < numCourses:
+            a = self.list_below_int(list(dict1.keys())+learnt, numCourses)
+            if not a: return []
+            else:
+                for item in a:
+                    if item in dict2.keys():
+                        tmp_unlocked = dict2.pop(item)
+                        for x in tmp_unlocked:
+                            dict1[x].remove(item)
+                            if not dict1[x]: dict1.pop(x)
+            learnt += a
+        return learnt
+
+    def list_below_int(self, list: list, num: int) -> list:  # find the elements not in list but below num
+        ret, i = [], 0
+        while i < num:
+            if i not in list: ret.append(i)
+            i += 1
+        return ret
