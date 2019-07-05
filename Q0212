@@ -1,0 +1,44 @@
+class Solution:
+    def findWords(self, board: list, words: list) -> list:
+
+        def find(tracked: list, dic: dict, i: int, j: int) -> list:
+
+            rett = []
+            if board[i][j] not in dic.keys(): return rett
+
+            tracked.append((i, j))
+            if "end" in dic[board[i][j]]:
+                ret_word = ""
+                for point in tracked:
+                    ret_word += board[point[0]][point[1]]
+                rett.append(ret_word)
+
+            if i != 0 and (i-1, j) not in tracked:
+                rett += find(tracked, dic[board[i][j]], i - 1, j)
+            if i != m-1 and (i+1, j) not in tracked:
+                rett += find(tracked, dic[board[i][j]], i + 1, j)
+            if j != 0 and (i, j-1) not in tracked:
+                rett += find(tracked, dic[board[i][j]], i, j - 1)
+            if j != n-1 and (i, j+1) not in tracked:
+                rett += find(tracked, dic[board[i][j]], i, j + 1)
+
+            tracked.pop()
+            return rett
+
+        word_trie = {}
+        for word in words:
+            cur = word_trie
+            for item in word:
+                if item not in cur:
+                    cur[item] = {}
+                cur = cur[item]
+            cur["end"] = "done"
+
+        ret = []
+        m = len(board)
+        n = len(board[0])
+        for i in range(m):
+            for j in range(n):
+                tracked = []
+                ret += find(tracked, word_trie, i, j)
+        return list(set(ret))
