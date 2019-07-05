@@ -1,0 +1,37 @@
+#Probably Correct
+class Solution:
+    def findWords(self, board: list, words: list) -> list:
+        def find(tracked, wordss, i, j) -> list:
+            if not wordss: return []
+            tmp = []
+            tmp += wordss
+            rett = []
+            k = 0
+            while k < len(tmp):
+                if len(tmp[k]) == len(tracked) + 1 and tmp[k][len(tracked)] == board[i][j]:
+                    rett.append(tmp.pop(k))
+                elif tmp[k][len(tracked)] != board[i][j]:
+                    tmp.pop(k)
+                else:
+                    k += 1
+            tracked.append((i, j))
+            if i != 0 and (i-1, j) not in tracked:
+                rett += find(tracked, tmp, i-1, j)
+            if i != m-1 and (i+1, j) not in tracked:
+                rett += find(tracked, tmp, i+1, j)
+            if j != 0 and (i, j-1) not in tracked:
+                rett += find(tracked, tmp, i, j-1)
+            if j != n-1 and (i, j+1) not in tracked:
+                rett += find(tracked, tmp, i, j+1)
+            tracked.pop()
+            return rett
+
+        ret = []
+        m = len(board)
+        n = len(board[0])
+        for i in range(m):
+            for j in range(n):
+                tracked = []
+                ret += find(tracked, words, i, j)
+        return list(set(ret))
+
