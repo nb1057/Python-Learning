@@ -1,0 +1,17 @@
+class Solution:
+    def rob(self, nums: list) -> int:
+        memo = {}
+
+        def line_rob(x,y):
+            if (x, y) in memo:
+                return memo[(x,y)]
+            elif x == y:
+                ans = 0
+            elif y - x in [1, 2]:
+                ans = max(nums[x:y])
+            else:
+                ans = max(nums[x] + line_rob(x+2, y), line_rob(x+1, y))
+            memo[(x, y)] = ans
+            return ans
+
+        return line_rob(0, len(nums)) if len(nums) <= 2 else max(nums[0]+line_rob(2, len(nums)-1), line_rob(1, len(nums)))
