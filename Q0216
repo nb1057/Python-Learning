@@ -1,0 +1,25 @@
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> list:
+        tracked = []
+
+        def letsgo(k, n, tracked):
+            ret = []
+            if k == 1 and n < 10 and n not in tracked:
+                return [[n]]
+            elif k == 1:
+                return []
+            for i in range(1, 10):
+                if i not in tracked and i < n:
+                    tracked.append(i)
+                    new = letsgo(k-1, n-i, tracked)
+                    for item in new:
+                        ret.append([tracked[-1]]+item)
+                    tracked.pop()
+            return ret
+
+        tmp = letsgo(k, n, tracked)
+        ret = []
+        for item in tmp:
+            item.sort()
+            if item not in ret: ret.append(item)
+        return ret
