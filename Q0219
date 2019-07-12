@@ -1,0 +1,23 @@
+from collections import defaultdict
+
+
+class Solution:
+    def containsNearbyDuplicate(self, nums: list, k: int) -> bool:
+        def get_min(list1):
+            i = 0
+            while i < len(list1) - 1:
+                list1[i] = list1[i+1] - list1[i]
+                i += 1
+            return min(list1)
+
+        memo = defaultdict(list)
+        for index, key in enumerate(nums):
+            memo[key].append(index)
+        for i in memo.keys():
+            if len(memo[i]) == 1: continue
+            if k >= get_min(memo[i]): return True
+        return False
+
+
+
+
