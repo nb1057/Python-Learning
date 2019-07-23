@@ -1,0 +1,28 @@
+class Solution:
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
+        if t < 0 or k < 0:
+            return False
+        allBuckets = {}
+        bucketSize = t + 1
+        for i in range(len(nums)):
+            # m is bucket Index for nums[i]
+            m = nums[i] // bucketSize
+
+            # if there is a bucket already present corresponding to current number
+            if m in allBuckets:
+                return True
+
+            # checking two adjacent buckets  m, m-1
+            if (m - 1) in allBuckets and abs(nums[i] - allBuckets[m - 1]) < bucketSize:
+                return True
+
+            # checking two adjacent buckets m, m+1
+            if (m + 1) in allBuckets and abs(nums[i] - allBuckets[m + 1]) < bucketSize:
+                return True
+            allBuckets[m] = nums[i]
+
+            # removing the bucket corresponding to number out of our k sized window
+            if i >= k:
+                del allBuckets[nums[i - k] // bucketSize]
+        return False
+
