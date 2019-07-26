@@ -1,0 +1,36 @@
+class Solution:
+    def computeArea(self, A: int, B: int, C: int, D: int, E: int, F: int, G: int, H: int) -> int:
+        def count(A,B,C,D):
+            return (C-A)*(D-B)
+        if A > E:
+            A, B, C, D, E, F, G, H = E, F, G, H, A, B, C, D
+        const = count(A,B,C,D) + count(E,F,G,H)
+        if E < C:
+            if D <= F:
+                return const
+            elif B <= F and D <= H:
+                if C > G:
+                    return const - count(E,F,G,D)
+                else:
+                    return const - count(E,F,C,D)
+            elif B <= F:
+                if C > G:
+                    return count(A,B,C,D)
+                else:
+                    return const - count(E,F,C,H)
+            elif D <= H:
+                if C > G:
+                    return const - count(E,B,G,D)
+                else:
+                    return const - count(E,B,C,D)
+            elif B <= H:
+                if C > G:
+                    return const - count(E,B,G,H)
+                else:
+                    return const - count(E,B,C,H)
+            else:
+                return const
+        else:
+            return const
+
+
