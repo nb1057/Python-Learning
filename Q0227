@@ -1,0 +1,36 @@
+class Solution:
+    def calculate(self, s: str) -> int:
+        s.replace(' ', '')
+        num_list, op_list, i, j = [], [], 1, -1
+        while i < len(s):
+            if s[i] in ['+', '-', '*', '/']:
+                num_list.append(s[j+1:i])
+                op_list.append(s[i])
+                j = i
+            i += 1
+        num_list.append(s[j+1:])
+        i = 0
+        while i < len(op_list):
+            if op_list[i] in ['*', '/']:
+                op = op_list.pop(i)
+                num1 = num_list.pop(i)
+                num2 = num_list.pop(i)
+                if op == '*':
+                    num3 = str(int(num1)*int(num2))
+                else:
+                    num3 = str(int(num1)//int(num2))
+                num_list.insert(i, num3)
+            else:
+                i += 1
+        while op_list:
+            op = op_list.pop(0)
+            num1 = num_list.pop(0)
+            num2 = num_list.pop(0)
+            if op == '+':
+                num3 = str(int(num1) + int(num2))
+            else:
+                num3 = str(int(num1) - int(num2))
+            num_list.insert(0, num3)
+        return int(num_list.pop())
+
+
