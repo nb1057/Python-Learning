@@ -1,0 +1,23 @@
+class Solution:
+    def summaryRanges(self, nums: list) -> list:
+        i = 0
+        ret = []
+        while i < len(nums):
+            j = i + 1
+            while j < len(nums):
+                if j - i != nums[j] - nums[i]:
+                    if j == i + 1:
+                        ret.append(str(nums[i]))
+                    else:
+                        ret.append(str(nums[i]) + '->' + str(nums[j-1]))
+                    i = j
+                    break
+                else:
+                    j += 1
+            if j == len(nums):
+                if j == i + 1:
+                    ret.append(str(nums[i]))
+                else:
+                    ret.append(str(nums[i]) + '->' + str(nums[j - 1]))
+                i = j
+        return ret
