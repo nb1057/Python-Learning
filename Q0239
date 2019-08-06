@@ -1,0 +1,16 @@
+class Solution:
+    def maxSlidingWindow(self, nums: list, k: int) -> list:
+        if k <= 1 or not nums: return nums
+        x = nums[:k]
+        x.reverse()
+        index = k - 1 - x.index(max(x))
+        ret = [nums[index]]
+        for i in range(1, len(nums)-k+1):
+            if index == i - 1:
+                x = nums[i:i+k]
+                x.reverse()
+                index = k - 1 - x.index(max(x)) + i
+            elif nums[i+k-1] >= nums[index]:
+                index = i + k - 1
+            ret.append(nums[index])
+        return ret
