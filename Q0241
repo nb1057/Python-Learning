@@ -1,0 +1,19 @@
+from operator import mul, add, sub
+
+
+class Solution:
+    def diffWaysToCompute(self, input: str) -> list:
+        op = {'+': add, '-': sub, '*': mul}
+        ret = []
+        if input.isdigit():
+            return [int(input)]
+        k = 1
+        while k < len(input):
+            if input[k] in ['+', '-', '*']:
+                L = self.diffWaysToCompute(input[:k])
+                R = self.diffWaysToCompute(input[k+1:])
+                for i in L:
+                    for j in R:
+                        ret.append(op[input[k]](i, j))
+            k += 1
+        return ret
