@@ -1,0 +1,32 @@
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        ret = []
+        queue1 = []
+        queue2 = []
+        queue3 = []
+
+        def gofind():
+            if not ret:
+                ret.append(1)
+                queue1.append(1)
+                queue2.append(1)
+                queue3.append(1)
+                return
+
+            num4 = min(queue1[0]*2, queue2[0]*3, queue3[0]*5)
+            ret.append(num4)
+            queue1.append(num4)
+            queue2.append(num4)
+            queue3.append(num4)
+            if queue1[0]*2 == num4:
+                queue1.pop(0)
+            if queue2[0]*3 == num4:
+                queue2.pop(0)
+            if queue3[0]*5 == num4:
+                queue3.pop(0)
+            return
+
+        for i in range(n):
+            gofind()
+
+        return ret[-1]
