@@ -1,0 +1,11 @@
+class Solution:
+    dict = {0: 0, 1: 1}
+
+    def numSquares(self, n: int) -> int:
+        if n in self.dict.keys():
+            return self.dict[n]
+        ret = n
+        for i in range(int(n ** 0.5), 0, -1):
+            ret = min(ret, 1 + self.numSquares(n - i ** 2))
+        self.dict[n] = ret
+        return ret
