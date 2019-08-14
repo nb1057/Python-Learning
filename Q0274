@@ -1,0 +1,17 @@
+class Solution:
+    def hIndex(self, citations: list) -> int:
+        citations.sort()
+        def judge(x: int) -> bool:
+            return True if citations[x] >= len(citations) - x else False
+        if not citations or citations[-1] == 0: return 0
+        start, end, target = 0, len(citations) - 1, len(citations) - 1
+        while start <= end:
+            if start == end:
+                target = start
+                break
+            target = (start + end) // 2
+            if judge(target):
+                end = target
+            else:
+                start = target + 1
+        return len(citations) - target
