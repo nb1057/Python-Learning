@@ -44,7 +44,3 @@ class Solution:
                 string.pop();string.pop()
         recurse(0, 0, 0, 0, [])
         return answers
-
-
-p = Solution()
-print(p.addOperators("123", 6))
