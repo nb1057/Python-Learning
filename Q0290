@@ -1,0 +1,27 @@
+class Solution:
+    def wordPattern(self, pattern: 'str', str: 'str') -> 'bool':
+        str = str.lstrip()
+        i = 0
+        while i < len(str) - 1:
+            if str[i] == ' ' and str[i+1] == ' ':
+                str = str[:i] + str[i+1:]
+            else:
+                i += 1
+        strlist = str.split(' ')
+        i = 0
+        memo = {}
+        if len(pattern) != len(strlist):
+            return False
+        while i < len(pattern):
+            if pattern[i] not in memo.keys():
+                if strlist[i] in memo.values():
+                    return False
+                memo[pattern[i]] = strlist[i]
+            else:
+                if memo[pattern[i]] != strlist[i]:
+                    return False
+            i += 1
+        return True
+
+
+    
