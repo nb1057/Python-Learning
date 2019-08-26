@@ -1,0 +1,36 @@
+class MedianFinder:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.data = []
+
+    def addNum(self, num: int) -> None:
+        L = len(self.data)
+        if L == 0:
+            self.data.append(num)
+            return
+        if num <= self.data[0]:
+            self.data.insert(0, num)
+            return
+        if num >= self.data[-1]:
+            self.data.append(num)
+            return
+        left, right = 0, L - 1
+        while left <= right:
+            tmp = (left+right) // 2
+            if self.data[tmp] > num:
+                right = tmp
+            else:
+                left = tmp + 1
+            if left == right:
+                self.data.insert(left, num)
+                return
+
+    def findMedian(self) -> float:
+        L = len(self.data)
+        if L % 2 == 1:
+            return self.data[L//2]
+        else:
+            return (self.data[L//2]+self.data[L//2-1])/2
