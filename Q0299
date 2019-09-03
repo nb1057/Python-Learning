@@ -1,0 +1,15 @@
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        bull, cow = 0, 0
+        secret_list, guess_list = [], []
+        for i in range(len(secret)):
+            if secret[i] == guess[i]:
+                bull += 1
+            else:
+                secret_list.append(secret[i])
+                guess_list.append(guess[i])
+        for i in range(0, 10):
+            cow += min(secret_list.count(str(i)), guess_list.count(str(i)))
+
+        return str(bull) + 'A' + str(cow) + 'B'
+
