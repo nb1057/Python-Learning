@@ -1,0 +1,23 @@
+class Solution:
+    def lengthOfLIS(self, nums: 'list[int]') -> 'int':
+        L = len(nums)
+        memo = {}
+        if L == 0:
+            return 0
+
+        def letsgo(i):
+            if i in memo.keys():
+                return memo[i]
+            ret = 1
+            for j in range(i+1, L):
+                if nums[i] < nums[j]:
+                    ret = max(ret, 1+letsgo(j))
+            memo[i] = ret
+            return ret
+
+        ans = []
+        for i in range(L):
+            ans.append(letsgo(i))
+        return max(ans)
+
+
