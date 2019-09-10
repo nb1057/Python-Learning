@@ -1,0 +1,48 @@
+from collections import defaultdict
+
+
+class Solution:
+    def removeInvalidParentheses(self, s: 'str') -> 'list[str]':
+        memo = defaultdict(list)
+
+        def f1(x: 'int', y: 'int') -> 'list':
+            if (x, y) in memo:
+                return memo[(x, y)]
+            if x > y:
+                return ['']
+            ret = [self.de(s[x:y+1])]
+            for i in range(x, y):
+                if s[i] == '(':
+                    for j in range(i+1, y+1):
+                        if s[j] == ')':
+                            next_list1 = f1(i+1, j-1)
+                            next_list2 = f1(j+1, y)
+                            str0 = self.de(s[x:i])
+                            for item1 in next_list1:
+                                for item2 in next_list2:
+                                    ret.append(str0 + '(' + item1 + ')' + item2)
+            m_len = 0
+            for item in ret:
+                m_len = max(m_len, len(item))
+            i = 0
+            while i < len(ret):
+                if len(ret[i]) != m_len:
+                    ret.pop(i)
+                else:
+                    i += 1
+            ret = list(set(ret))
+            memo[(x, y)] = ret
+            return ret
+
+        return f1(0, len(s)-1)
+
+    def de(self, s) -> 'str':
+        i = 0
+        while i < len(s):
+            if s[i] == '(' or s[i] == ')':
+                s = s[:i] + s[i+1:]
+            else:
+                i += 1
+        return s
+
+
