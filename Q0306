@@ -1,0 +1,30 @@
+class Solution:
+    def isAdditiveNumber(self, num: str) -> bool:
+        L = len(num)
+        if L < 3: return False
+        for i in range(L//2):
+            for j in range(i+1, i+1+L//2):
+                op1 = num[:i+1]
+                op2 = num[i+1:j+1]
+                if len(op1) > 1 and op1[0] == '0' or len(op2) > 1 and op2[0] == '0':
+                    continue
+                end = j
+                while True:
+                    next_op_int = int(op1) + int(op2)
+                    if next_op_int == 0:
+                        if num[end+1] == '0':
+                            op1, op2 = op2, op1+op2
+                            end += 1
+                        else:
+                            break
+                    else:
+                        next_op_len = len(str(next_op_int))
+                        if next_op_len <= L - 1 - end and str(next_op_int) == num[end+1:end+1+next_op_len]:
+                            op1, op2 = op2, str(next_op_int)
+                            end += next_op_len
+                        else:
+                            break
+                    if end == L - 1:
+                        return True
+        return False
+
