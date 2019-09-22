@@ -1,0 +1,24 @@
+from collections import defaultdict
+
+
+class Solution:
+    def findMinHeightTrees(self, n: int, edges: 'list[list[int]]') -> 'list[int]':
+
+        if n <= 2:
+            return [i for i in range(n)]
+
+        dic = defaultdict(list)
+        for item in edges:
+            dic[item[0]].append(item[1])
+            dic[item[1]].append(item[0])
+
+        while len(dic.keys()) > 2:
+            marked = []
+            for i in dic.keys():
+                if len(dic[i]) == 1:
+                    marked.append(i)
+            for i in marked:
+                dic[dic[i][0]].remove(i)
+                del dic[i]
+
+        return list(dic.keys())
