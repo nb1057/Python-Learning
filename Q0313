@@ -1,0 +1,16 @@
+class Solution:
+    def nthSuperUglyNumber(self, n:'int', primes:'list') -> 'int':
+        if n == 1: return 1
+        ret = [1]
+        m = len(primes)
+        dp = [0 for i in range(m)]
+        while len(ret) < n:
+            tmp = []
+            for i in range(m):
+                tmp.append(ret[dp[i]]*primes[i])
+            v = min(tmp)
+            for i in range(m):
+                if ret[dp[i]] * primes[i] == v:
+                    dp[i] += 1
+            ret.append(v)
+        return ret[-1]
