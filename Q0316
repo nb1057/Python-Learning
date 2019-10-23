@@ -1,0 +1,24 @@
+class Solution:
+    def removeDuplicateLetters(self, s: 'str') -> 'str':
+        if s == '':
+            return ''
+        memo = dict()
+        final_char_list = []
+        for i in range(len(s)-1, -1, -1):
+            if s[i] not in memo:
+                final_char_list.append(i)
+            memo[s[i]] = i
+        l = list(memo.keys())
+        l.sort()
+        gate = min(final_char_list)
+        for i in l:
+            if memo[i] <= gate:
+                target = i
+                target_index = memo[i]
+                break
+        next_string = s[target_index+1:]
+        next_string = next_string.replace(target, '')
+        return target + self.removeDuplicateLetters(next_string)
+
+
+
