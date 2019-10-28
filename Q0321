@@ -1,0 +1,43 @@
+class Solution:
+    def maxNumber(self, nums1: 'list[int]', nums2: 'list[int]', k: 'int') -> 'list[int]':
+        memo = dict()
+        L1, L2 = len(nums1), len(nums2)
+
+        def doit(x: 'int', y: 'int', z: 'int') -> 'str':
+            if (x, y, z) in memo:
+                return memo[(x, y, z)]
+            if z == 1:
+                return str(max(nums1[x:] + nums2[y:]))
+            if x == L1:
+                c2 = max(nums2[y:][:L2 - y - z+1])
+                index = nums2.index(c2, y)
+                tmp = doit(x, index+1, z-1)
+                ret = str(c2)+tmp
+            elif y == L2:
+                c1 = max(nums1[x:][:L1 - x - z+1])
+                index = nums1.index(c1, x)
+                tmp = doit(index+1, y, z-1)
+                ret = str(c1)+tmp
+            else:
+                c1 = max(nums1[x:][:L1+L2-x-y-z+1])
+                c2 = max(nums2[y:][:L1+L2-x-y-z+1])
+                if c1 > c2:
+                    index = nums1.index(c1, x)
+                    tmp = doit(index+1, y, z-1)
+                    ret = str(c1)+tmp
+                elif c1 < c2:
+                    index = nums2.index(c2, y)
+                    tmp = doit(x, index+1, z-1)
+                    ret = str(c2)+tmp
+                else:
+                    index1 = nums1.index(c1, x)
+                    tmp1 = doit(index1+1, y, z-1)
+                    index2 = nums2.index(c2, y)
+                    tmp2 = doit(x, index2+1, z-1)
+                    ret = str(c1)+max(tmp1, tmp2)
+            memo[(x, y, z)] = ret
+            return ret
+
+        ans = list(doit(0, 0, k))
+        return [int(a) for a in ans]
+
