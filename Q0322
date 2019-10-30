@@ -1,0 +1,27 @@
+class Solution:
+    def coinChange(self, coins: 'list[int]', amount: 'int') -> 'int':
+        memo = dict()
+        if amount == 0:
+            return 0
+        if not coins:
+            return -1
+
+        def doit(x: 'int') -> 'int':
+            if x in memo:
+                return memo[x]
+            if x < min(coins):
+                memo[x] = -1
+                return -1
+            if x in coins:
+                memo[x] = 1
+                return 1
+            ret = x + 1
+            for item in coins:
+                if doit(x-item) != -1:
+                    ret = min(ret, 1+doit(x-item))
+            if ret == x + 1:
+                ret = -1
+            memo[x] = ret
+            return ret
+
+        return doit(amount)
