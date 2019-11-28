@@ -1,0 +1,14 @@
+class Solution:
+    def countRangeSum(self, nums: 'list[int]', lower: 'int', upper: 'int') -> 'int':
+        memo = [0]
+        ret = 0
+        record = dict()
+        for x in nums:
+            memo.append(memo[-1]+x)
+
+        for index, val in enumerate(memo):
+            for target in range(lower, upper+1):
+                if val - target in record.keys():
+                    ret += record[val-target]
+            record[val] = record[val] + 1 if val in record.keys() else 1
+        return ret
