@@ -1,0 +1,38 @@
+class Solution:
+    def longestIncreasingPath(self, matrix: 'list[list[int]]') -> 'int':
+        if not matrix:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        ans = 1
+        memo = dict()
+
+        def doit(x: int, y: int) -> int:
+            if (x, y) in memo:
+                return memo[x, y]
+            ret = 0
+            if x != 0 and matrix[x-1][y] > matrix[x][y]:
+                ret = max(ret, doit(x-1, y))
+            if x != m-1 and matrix[x+1][y] > matrix[x][y]:
+                ret = max(ret, doit(x+1, y))
+            if y != 0 and matrix[x][y-1] > matrix[x][y]:
+                ret = max(ret, doit(x, y-1))
+            if y != n-1 and matrix[x][y+1] > matrix[x][y]:
+                ret = max(ret, doit(x, y+1))
+            memo[x, y] = ret + 1
+            return memo[x, y]
+
+        for i in range(m):
+            for j in range(n):
+                if i != 0 and matrix[i-1][j] < matrix[i][j]:
+                    continue
+                if i != m-1 and matrix[i+1][j] < matrix[i][j]:
+                    continue
+                if j != 0 and matrix[i][j-1] < matrix[i][j]:
+                    continue
+                if j != n-1 and matrix[i][j+1] < matrix[i][j]:
+                    continue
+                ans = max(ans, doit(i, j))
+
+        return ans
+
