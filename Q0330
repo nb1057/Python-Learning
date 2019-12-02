@@ -1,0 +1,13 @@
+class Solution:
+    def minPatches(self, nums: 'list[int]', n: 'int') -> 'int':
+        ori = len(nums)
+        if not nums or nums[0] != 1:
+            nums.insert(0, 1)
+        tmp = 1
+        index = 1
+        while tmp < n:
+            if index == len(nums) or tmp+1 < nums[index]:
+                nums.insert(index, tmp+1)
+            tmp += nums[index]
+            index += 1
+        return len(nums) - ori
