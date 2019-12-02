@@ -1,0 +1,8 @@
+class Solution:
+    def isValidSerialization(self, preorder: 'str') -> 'bool':
+        index = preorder.find('#,#')
+        while index not in [-1, 0]:
+            index2 = preorder.rfind(',',0,index-1)
+            preorder = preorder[:index2+1] + preorder[index+2:]
+            index = preorder.find('#,#')
+        return preorder == '#'
