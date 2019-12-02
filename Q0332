@@ -1,0 +1,26 @@
+from collections import defaultdict
+
+
+class Solution:
+    def findItinerary(self, tickets: 'list[list[str]]') -> 'list[str]':
+        memo = defaultdict(list)
+
+        for item in tickets:
+            memo[item[0]].append(item[1])
+        for item in memo:
+            memo[item].sort()
+
+        def doit(start: 'str', route: 'dict') -> 'list[str]':
+            ret = [start]
+            L = 0
+            for i in route.keys():
+                L += len(route[i])
+            for index, value in enumerate(route[start]):
+                route[start].remove(value)
+                tmp = doit(value, route)
+                if L+1 == len(ret+tmp):
+                    return ret+tmp
+                route[start].insert(index, value)
+            return ret
+
+        return doit('JFK', memo)
