@@ -1,0 +1,63 @@
+from collections import defaultdict
+
+
+class Solution:
+    def isSelfCrossing(self, x: 'list[int]') -> 'bool':
+
+        def check_if_stack(new: 'tuple', exist: 'dict'):
+            for item in exist[new[0]]:
+                if item[1] >= min(new[1], new[2]) and item[0] <= max(new[1], new[2]):
+                    return True
+            return False
+
+        def check_if_cross(new: 'tuple', exist: 'dict'):
+            for item in exist.keys():
+                if new[1] != item and min(new[1], new[2]) <= item <= max(new[1], new[2]):
+                    for pairs in exist[item]:
+                        if pairs[0] <= new[0] <= pairs[1]:
+                            return True
+            return False
+
+        start = (0, 0)
+        direction = 'North'
+        l_horizontal = defaultdict(list)
+        l_vertical = defaultdict(list)
+        while x:
+            length = x.pop(0)
+            if direction == 'North':
+                new_line = (start[0], start[1], start[1]+length)
+                if check_if_stack(new_line, l_vertical):
+                    return True
+                if check_if_cross(new_line, l_horizontal):
+                    return True
+                l_vertical[new_line[0]].append((new_line[1], new_line[2]))
+                start = (new_line[0], new_line[2])
+                direction = 'West'
+            elif direction == 'South':
+                new_line = (start[0], start[1], start[1]-length)
+                if check_if_stack(new_line, l_vertical):
+                    return True
+                if check_if_cross(new_line, l_horizontal):
+                    return True
+                l_vertical[new_line[0]].append((new_line[2], new_line[1]))
+                start = (new_line[0], new_line[2])
+                direction = 'East'
+            elif direction == 'West':
+                new_line = (start[1], start[0], start[0]-length)
+                if check_if_stack(new_line, l_horizontal):
+                    return True
+                if check_if_cross(new_line, l_vertical):
+                    return True
+                l_horizontal[new_line[0]].append((new_line[2], new_line[1]))
+                start = (new_line[2], new_line[0])
+                direction = 'South'
+            else:  # direction == 'East'
+                new_line = (start[1], start[0], start[0]+length)
+                if check_if_stack(new_line, l_horizontal):
+                    return True
+                if check_if_cross(new_line, l_vertical):
+                    return True
+                l_horizontal[new_line[0]].append((new_line[1], new_line[2]))
+                start = (new_line[2], new_line[0])
+                direction = 'North'
+        return False
