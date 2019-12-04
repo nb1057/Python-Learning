@@ -1,0 +1,20 @@
+class Solution:
+    def palindromePairs(self, words: 'list[str]') -> 'list[list[int]]':
+        memo = dict()
+        for index, word in enumerate(words):
+            memo[word] = index
+
+        def ispalindrome(s: 'str') -> 'bool':
+            return s == s[::-1]
+
+        ret = list()
+        for i, word in enumerate(words):
+            for j in range(len(word)+1):
+                s1, s2 = word[:j], word[j:]
+                if ispalindrome(s2) and s1[::-1] in memo.keys() and memo[s1[::-1]] != i:
+                    ret.append((i, memo[s1[::-1]]))
+                s1, s2 = s2[::-1], s1[::-1]
+                if ispalindrome(s2) and s1 in memo.keys() and memo[s1] != i:
+                    ret.append((memo[s1], i))
+        ret = list(set(ret))
+        return [list(i) for i in ret]
