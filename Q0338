@@ -1,0 +1,7 @@
+class Solution:
+    def countBits(self, num: 'int') -> 'list[int]':
+        ret = [0]
+        while len(ret) < num+1:
+            tmp = [i+1 for i in ret]
+            ret += tmp
+        return ret[:num+1]
