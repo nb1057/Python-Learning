@@ -1,0 +1,29 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def rob(self, root: 'TreeNode') -> 'int':
+        memo = dict()
+
+        def doit(x: 'TreeNode') -> 'int':
+            if x in memo.keys():
+                return memo[x]
+            if x is None:
+                ans = 0
+            elif x.left is None and x.right is None:
+                ans = x.val
+            elif x.left is None:
+                ans = max(x.val+doit(x.right.left)+doit(x.right.right), doit(x.right))
+            elif x.right is None:
+                ans = max(x.val+doit(x.left.left)+doit(x.left.right), doit(x.left))
+            else:
+                ans = max(x.val+doit(x.left.left)+doit(x.left.right)+doit(x.right.left) + \
+                          doit(x.right.right), doit(x.left)+doit(x.right))
+            memo[x] = ans
+            return ans
+        
+        return doit(root)
