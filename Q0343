@@ -1,0 +1,17 @@
+class Solution:
+    def integerBreak(self, n: 'int') -> 'int':
+        memo = {1: 1, 2: 2, 3: 3}
+
+        def doit(x: 'int') -> 'int':
+            if x in memo.keys():
+                return memo[x]
+            ans = x
+            for i in range(1, x//2+1):
+                ans = max(ans, doit(i)*doit(x-i))
+            memo[x] = ans
+            return ans
+
+        ret = n-1
+        for i in range(1, n//2+1):
+            ret = max(ret, doit(i)*doit(n-i))
+        return ret
