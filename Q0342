@@ -1,0 +1,4 @@
+class Solution:
+    def isPowerOfFour(self, num: int) -> bool:
+        s = bin(num)
+        return s[:3] == '0b1' and s[3:] == '00' * (len(s[3:])//2)
