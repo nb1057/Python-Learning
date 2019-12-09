@@ -1,0 +1,17 @@
+class Solution:
+    def topKFrequent(self, nums: 'list[int]', k: 'int') -> 'list[int]':
+        memo = dict()
+        for item in nums:
+            if item not in memo:
+                memo[item] = 1
+            else:
+                memo[item] += 1
+        l = []
+        for item in memo.keys():
+            l.append((memo[item], item))
+        l.sort()
+        ret = []
+        for i in range(k):
+            ret.append(l.pop()[1])
+        return ret
+            
