@@ -1,0 +1,34 @@
+from collections import defaultdict
+
+
+class Solution:
+    def maxEnvelopes(self, envelopes: 'list[list[int]]') -> 'int':
+        if not envelopes:
+            return 0
+        memo = dict()
+        rmemo = defaultdict(list)
+        envelopes.sort()
+        N = len(envelopes)
+        memo[0] = 1
+        rmemo[1] = [0]
+
+        def doit(x: 'int') -> 'int':
+            if x in memo:
+                return memo[x]
+            tmp = max(rmemo.keys())
+            for i in range(tmp, 0, -1):
+                for j in rmemo[i]:
+                    if envelopes[x][0] > envelopes[j][0] and envelopes[x][1] > envelopes[j][1]:
+                        ret = doit(j)+1
+                        memo[x] = ret
+                        rmemo[ret].append(x)
+                        return ret
+            memo[x] = 1
+            rmemo[1].append(x)
+            return 1
+
+        for j in range(N):
+            if j not in memo.keys():
+                doit(j)
+
+        return max(rmemo.keys())
