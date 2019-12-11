@@ -1,0 +1,26 @@
+class Solution:
+    def parseBoolExpr(self, expression: 'str') -> 'bool':
+        stack = []
+        i = 0
+        while i < len(expression):
+            if expression[i] == '(':
+                stack.append(i)
+                i += 1
+            elif expression[i] == ')':
+                start = stack.pop() - 1
+                end = i
+                new_str = self.calculate(expression[start:end+1])
+                expression = expression[:start] + new_str + expression[end+1:]
+                i = start + 1
+            else:
+                i += 1
+        return True if expression == 't' else False
+
+    def calculate(self, s: 'str') -> 'str':
+        l = s[2:-1].split(',')
+        if s[0] == '|':
+            return 't' if 't' in l else 'f'
+        if s[0] == '&':
+            return 'f' if 'f' in l else 't'
+        if s[0] == '!':
+            return 't' if 'f' in l else 'f'
