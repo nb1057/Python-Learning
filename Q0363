@@ -1,0 +1,28 @@
+import bisect
+
+
+class Solution:
+    def maxSumSubmatrix(self, matrix: 'list[list[int]]', k: 'int') -> 'int':
+        m = len(matrix)
+        n = len(matrix[0])
+
+        def doit(l: list) -> 'int':
+            ret = float('-inf')
+            l2 = [float('inf')]
+            cur = 0
+            for x in l:
+                bisect.insort(l2, cur)
+                cur += x
+                a = bisect.bisect_left(l2, cur-k)
+                ret = max(ret, cur-l2[a])
+            return ret
+
+        ans = float('-inf')
+        for i in range(m):
+            for j in range(1, n):
+                matrix[i][j] += matrix[i][j-1]
+        for y1 in range(n):
+            for y2 in range(y1, n):
+                l1 = [matrix[x][y2] - (matrix[x][y1-1] if y1 != 0 else 0) for x in range(m)]
+                ans = max(ans, doit(l1))
+        return ans
