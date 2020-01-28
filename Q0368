@@ -1,0 +1,32 @@
+class Solution:
+    def largestDivisibleSubset(self, nums: 'list[int]') -> 'list[int]':
+        if not nums:
+            return nums
+        nums.sort(reverse=True)
+        l = []
+        while nums:
+            x = nums.pop()
+            if not l:
+                l.append([x])
+                continue
+            for i in range(len(l)):
+                for j in l[i]:
+                    if x % j == 0:
+                        break
+                if x % j == 0:
+                    if i == 0:
+                        l.insert(0, [x])
+                    else:
+                        l[i-1].append(x)
+                    break
+                elif i == len(l)-1:
+                    l[-1].append(x)
+        x = l[0][0]
+        ret = [x]
+        for i in range(1, len(l)):
+            for item in l[i]:
+                if x % item == 0:
+                    ret.append(item)
+                    x = item
+                    break
+        return ret
