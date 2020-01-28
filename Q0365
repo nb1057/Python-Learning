@@ -1,0 +1,19 @@
+class Solution:
+    def canMeasureWater(self, x: 'int', y: 'int', z: 'int') -> 'bool':
+        prime_list = [1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
+        if z == 0 or z == x or z == y:
+            return True
+        if x + y < z or x == 0 or y == 0:
+            return False
+        (x, y) = (y, x) if y > x else (x, y)
+        gcd = 1
+        while y != 1:
+            if x % y == 0:
+                gcd = y
+                break
+            if y in prime_list:
+                gcd = 1
+                break
+            tmp = x - y
+            x, y = max(tmp,y), min(tmp,y)
+        return z % gcd == 0
