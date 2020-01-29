@@ -1,0 +1,38 @@
+class Solution:
+    def getSum(self, a: 'int', b: 'int') -> 'int':
+        a_bin = '00' + bin(a).split('b')[1]
+        b_bin = '00' + bin(b).split('b')[1]
+        if bin(a).split('b')[0][0] == '-':
+            a_bin = a_bin.replace('0', 'x').replace('1', '0').replace('x', '1')
+            for i in range(len(a_bin)-1,-1,-1):
+                if a_bin[i] == '0':
+                    a_bin = a_bin[:i] + a_bin[i:].replace('0','x').replace('1','0').replace('x','1')
+                    break
+        if bin(b).split('b')[0][0] == '-':
+            b_bin = b_bin.replace('0', 'x').replace('1', '0').replace('x', '1')
+            for i in range(len(b_bin)-1,-1,-1):
+                if b_bin[i] == '0':
+                    b_bin = b_bin[:i] + b_bin[i:].replace('0','x').replace('1','0').replace('x','1')
+                    break
+        if len(a_bin) > len(b_bin):
+            b_bin = b_bin[0] * (len(a_bin)-len(b_bin)) + b_bin
+        elif len(b_bin) > len(a_bin):
+            a_bin = a_bin[0] * (len(b_bin)-len(a_bin)) + a_bin
+        ret_bin = ''
+        c_in = 0
+        for i in range(len(a_bin)-1, -1, -1):
+            a_in = int(a_bin[i])
+            b_in = int(b_bin[i])
+            co = (c_in and a_in and b_in) or (not c_in and not a_in and b_in) or (not c_in and a_in and not b_in) or (c_in and not a_in and not b_in)
+            c_in = (c_in and a_in) or (c_in and b_in) or (a_in and b_in)
+            ret_bin = str(int(co)) + ret_bin
+        if ret_bin[0] == '0':
+            return int(ret_bin, 2)
+        ret_bin = ret_bin[1:].replace('1','x').replace('0','1').replace('x','0')
+        for i in range(len(ret_bin)-1,-1,-1):
+            if ret_bin[i] == '0':
+                ret_bin = ret_bin[:i] + ret_bin[i:].replace('0', 'x').replace('1', '0').replace('x', '1')
+                break
+        return (-1)*int(ret_bin, 2)
+
+
