@@ -1,0 +1,20 @@
+class Solution:
+    def superPow(self, a: int, b: 'list[int]') -> 'int':
+        a = a%1337
+        memo = [a]
+        c = 0
+        while b:
+            c *= 10
+            c += b.pop(0)
+        c -= 1
+        if c == 0:
+            return 1
+        while c > 0:
+            x = (memo[-1]*a) % 1337
+            if x not in memo:
+                memo.append(x)
+                c -= 1
+            else:
+                period = len(memo) - memo.index(x)
+                return memo[memo.index(x):][(c-1) % period]
+        return memo[-1]
