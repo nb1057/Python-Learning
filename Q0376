@@ -1,0 +1,21 @@
+class Solution:
+    def wiggleMaxLength(self, nums: 'list[int]') -> 'int':
+        if len(nums) < 2:
+            return len(nums)
+        l = [nums[0]]
+        i = 1
+        while i < len(nums):
+            if nums[i] != nums[0]:
+                l.append(nums[i])
+                i += 1
+                break
+            i += 1
+        while i < len(nums):
+            if (nums[i] - l[-1]) * (l[-1] - l[-2]) >= 0:
+                l[-1] = nums[i]
+            else:
+                l.append(nums[i])
+            i += 1
+        return len(l)
+
+
