@@ -1,0 +1,16 @@
+class Solution:
+    def combinationSum4(self, nums: 'list[int]', target: 'int') -> 'int':
+        nums.sort()
+        memo = {0: 1}
+
+        def doit(t:'int') -> 'int':
+            if t in memo:
+                return memo[t]
+            ans = 0
+            for i in nums:
+                if i <= t:
+                    ans += doit(t-i)
+            memo[t] = ans
+            return ans
+
+        return doit(target)
