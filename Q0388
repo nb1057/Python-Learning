@@ -1,0 +1,36 @@
+class Solution:
+    def lengthLongestPath(self, inp: 'str') -> 'int':
+        def gethead(s: 'str') -> ('int', 'str'):  # \n\t = 1, \n\t\t = 2
+            if not s:
+                return 0, ""
+
+            i = 0
+            while i < len(s):
+                if s[i] != '\t':
+                    break
+                i += 1
+            j = i
+            while j < len(s):
+                if s[j] == '\n':
+                    break
+                j += 1
+            return i, s[i:j]
+
+        inp = inp.replace("    ", "\t")
+        if '\n' not in inp:
+            return len(inp) if '.' in inp else 0
+
+        cur = []
+        ret = 0
+        while inp:
+            x, y = gethead(inp)
+            if x > (len(cur) if cur else 0) - 1:
+                cur.append(1 + len(y) + 4*(x - (len(cur) if cur else 0)))
+            else:
+                cur = cur[:x]
+                cur.append(1 + len(y))
+            if '.' in y:
+                ret = max(ret, sum(cur)-1)
+            inp = inp[x + 1 + len(y):]
+
+        return ret
