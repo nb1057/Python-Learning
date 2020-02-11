@@ -1,0 +1,12 @@
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        memo = dict()
+        for i in s:
+            if i not in memo.keys():
+                memo[i] = s.count(i)
+        checked = []
+        for j in t:
+            if j not in checked and (j not in memo.keys() or memo[j]!=t.count(j)):
+                return j
+            else:
+                checked.append(j)
