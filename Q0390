@@ -1,0 +1,7 @@
+class Solution:
+    def lastRemaining(self, n: int) -> int:
+        a1, d = 1, 1
+        while n > 1:
+            a1, d, n = a1 + d, 2 * d, n // 2
+            a1, d = a1 + (n - 1) * d, -d
+        return a1
