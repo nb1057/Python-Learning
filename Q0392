@@ -1,0 +1,8 @@
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        index = -1
+        for i in s:
+            index = t.find(i, index+1) 
+            if index == -1:
+                return False
+        return True
