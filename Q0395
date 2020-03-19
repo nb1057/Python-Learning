@@ -1,0 +1,21 @@
+class Solution:
+    def longestSubstring(self, s: 'str', k: 'int') -> 'int':
+
+        def doit(s:'str') -> 'int':
+            if not s:
+                return 0
+            tracked = ['*']
+            ret = 0
+            for i in s:
+                if i not in tracked:
+                    tracked.append(i)
+                    if s.count(i) < k:
+                        s = s.replace(i, '*')
+            if '*' not in s:
+                return len(s)
+            new_string_list = s.split('*')
+            for item in new_string_list:
+                ret = max(ret, doit(item))
+            return ret
+
+        return doit(s)
