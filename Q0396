@@ -1,0 +1,14 @@
+class Solution:
+    def maxRotateFunction(self, A: 'list') -> 'int':
+        if not A:
+            return 0
+        s = sum(A)
+        n = len(A)
+        ans = 0
+        for i, v in enumerate(A):
+            ans += i * v
+        tmp = ans
+        for i, v in enumerate(A):
+            tmp += v * n - s
+            ans = max(ans, tmp)
+        return ans
