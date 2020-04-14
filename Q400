@@ -1,0 +1,11 @@
+import math
+
+
+class Solution:
+    def findNthDigit(self, n: int) -> int:
+        l = 1
+        while n > 9*l*10**(l-1):
+            n -= 9 * l * 10 ** (l-1)
+            l += 1
+        digit = 10**(l-1)-1+math.ceil(n/l)
+        return int(str(digit)[n%l-1])
