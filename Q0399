@@ -1,0 +1,64 @@
+class Solution:
+    def calcEquation(self, equations: 'list[list[str]]', values: 'list[float]', queries: 'list[list[str]]') -> 'list[float]':
+        memo_list = []
+        alphabet_list = []
+        visited = dict()
+        ret = []
+        for v in equations:
+            if v[0] not in alphabet_list:
+                alphabet_list.append(v[0])
+            if v[1] not in alphabet_list:
+                alphabet_list.append(v[1])
+        alphabet_list.sort()
+        for i, v in enumerate(equations):
+            if v[0] not in visited and v[1] not in visited:
+                memo_list.append({v[0]: values[i], v[1]: 1})
+                visited[v[0]] = len(memo_list)-1
+                visited[v[1]] = len(memo_list)-1
+            elif v[0] not in visited and v[1] in visited:
+                memo_list[visited[v[1]]][v[0]] = values[i] * memo_list[visited[v[1]]][v[1]]
+                visited[v[0]] = visited[v[1]]
+            elif v[0] in visited and v[1] not in visited:
+                memo_list[visited[v[0]]][v[1]] = memo_list[visited[v[0]]][v[0]] / values[i]
+                visited[v[1]] = visited[v[0]]
+            else:
+                if visited[v[0]] == visited[v[1]]:
+                    pass
+                elif visited[v[0]] < visited[v[1]]:
+                    k = values[i] / (memo_list[visited[v[0]]][v[0]]/memo_list[visited[v[1]]][v[1]])
+                    for item in memo_list[visited[v[0]]].keys():
+                        memo_list[visited[v[0]]][item] *= k
+                    index = visited[v[1]]
+                    for j in alphabet_list:
+                        if visited[j] > index:
+                            visited[j] -= 1
+                        elif visited[j] == index:
+                            visited[j] = visited[v[0]]
+                    for key in memo_list[index].keys():
+                        memo_list[visited[v[0]]][key] = memo_list[index][key]
+                    memo_list.pop(index)
+                else:
+                    k = values[i] / (memo_list[visited[v[1]]][v[1]]/memo_list[visited[v[0]]][v[0]])
+                    for item in memo_list[visited[v[1]]].keys():
+                        memo_list[visited[v[1]]][item] *= k
+                    index = visited[v[0]]
+                    for j in alphabet_list:
+                        if visited[j] > index:
+                            visited[j] -= 1
+                        elif visited[j] == index:
+                            visited[j] = visited[v[1]]
+                    for key in memo_list[index].keys():
+                        memo_list[visited[v[1]]][key] = memo_list[index][key]
+                    memo_list.pop(index)
+        for pair in queries:
+            if pair[0] not in alphabet_list or pair[1] not in alphabet_list:
+                ret.append(-1.0000)
+                continue
+            i0 = visited[pair[0]]
+            i1 = visited[pair[1]]
+            if i0 != i1:
+                ret.append(-1.0000)
+                continue
+            else:
+                ret.append(memo_list[i0][pair[0]]/memo_list[i1][pair[1]])
+        return ret
