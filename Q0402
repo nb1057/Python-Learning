@@ -1,0 +1,23 @@
+import copy
+
+
+class Solution:
+    def removeKdigits(self, num: "str", k: "int") -> "str":
+
+        def doit(s: "str", k:"int") -> "str":
+            if k <= 0:
+                return "0"
+            if k == 1:
+                return min(s)
+            if len(s) == k:
+                return s
+            tmp = copy.deepcopy(s[:-k+1])
+            x = min(tmp)
+            index = tmp.find(x)
+            ret = x + doit(s[index+1:], k-1)
+            return ret
+
+        ret = doit(num, len(num)-k)
+        while len(ret) > 1 and ret[0] == "0":
+            ret = ret[1:]
+        return ret
