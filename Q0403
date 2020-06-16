@@ -1,0 +1,30 @@
+class Solution:
+    def canCross(self, stones: 'list[int]') -> bool:
+        memo = dict()
+
+        def doit(i:'int', x:'int') -> 'bool':
+            if (i, x) in memo.keys():
+                return memo[i, x]
+            if len(stones[i:]) == 1:
+                memo[i, x] = True
+                return True
+            if x + 1 > 0 and stones[i] + x + 1 in stones[i:]:
+                if doit(stones.index(stones[i] + x + 1), x+1):
+                    memo[i, x] = True
+                    return True
+            if x > 0 and stones[i] + x in stones[i:]:
+                if doit(stones.index(stones[i] + x), x):
+                    memo[i, x] = True
+                    return True
+            if x - 1 > 0 and stones[i] + x - 1 in stones[i:]:
+                if doit(stones.index(stones[i] + x - 1), x - 1):
+                    memo[i, x] = True
+                    return True
+
+            memo[i, x] = False
+            return False
+
+        stones = list(set(stones))
+        stones.sort()
+        return doit(0, 0)
+
