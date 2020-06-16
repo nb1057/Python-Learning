@@ -1,0 +1,15 @@
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        ret = 0
+        son_list = [root]
+        while son_list:
+            tmp_list = []
+            for cur in son_list:
+                if cur.left: tmp_list.append(cur.left)
+                if cur.right: tmp_list.append(cur.right)
+                if cur.left and not cur.left.left and not cur.left.right:
+                    ret += cur.left.val
+            son_list = tmp_list
+        return ret
