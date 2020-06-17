@@ -1,0 +1,33 @@
+class Solution:
+    def toHex(self, num: 'int') -> str:
+        dic = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9",
+            10: "a", 11: "b", 12: "c", 13: "d", 14: "e", 15: "f"}
+        rdic = {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
+            "a": 10, "b": 11, "c": 12, "d": 13, "e": 14, "f": 15}
+
+        def dec2hex(x: 'int') -> str:
+            ret = ""
+            while x >= 16:
+                ret = dic[x % 16] + ret
+                x = x // 16
+            ret = dic[x] + ret
+            return ret
+
+        if num > 0:
+            return dec2hex(num)
+        if num == 0:
+            return "0"
+        if num < 0:
+            tmp = dec2hex(-num)
+            if len(tmp) < 8:
+                tmp = "0"*(8-len(tmp)) + tmp
+            for i in range(len(tmp)):
+                tmp = tmp[:i] + dic[15-rdic[tmp[i]]] + tmp[i+1:]
+            for i in range(len(tmp)-1, -1, -1):
+                if tmp[i] != "f":
+                    tmp = tmp[:i] + dic[rdic[tmp[i]]+1] + tmp[i+1:]
+                    break
+                else:
+                    tmp = tmp[:i] + "0" + tmp[i+1:]
+            return tmp
+
